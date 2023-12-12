@@ -6,4 +6,4 @@ namespace Hospital_appointment_system.Models
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
-}
+} 
