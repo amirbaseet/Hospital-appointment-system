@@ -1,7 +1,10 @@
-﻿namespace Hospital_appointment_system.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Hospital_appointment_system.Models
 {
     public class WorkingHour
     {
+        [Key]
         public int HoursID { get; set; }
         public int DoctorID { get; set; }
         public string DayOfWeek { get; set; }

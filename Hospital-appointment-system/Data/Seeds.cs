@@ -48,8 +48,8 @@ namespace Hospital_appointment_system.Data
                 {
                    context.PatientUsers.AddRange(new List<PatientUser>
                 {
-                     new PatientUser { Username = "user1", Password = "hashed_password1", Email = "user1@example.com"},
-                     new PatientUser { Username = "user2", Password = "hashed_password2", Email = "user2@example.com"}
+                     new PatientUser { UserID=123456, Username = "user1", Password = "hashed_password1", Email = "user1@example.com"},
+                     new PatientUser { UserID=123457,Username = "user2", Password = "hashed_password2", Email = "user2@example.com"}
                      });
                     context.SaveChanges();
                 }
@@ -58,8 +58,8 @@ namespace Hospital_appointment_system.Data
                 {
                     context.Appointments.AddRange(new List<Appointment>
                     {
-                    new Appointment { PatientUserID = 1, DoctorID = 1, Date = DateTime.Parse("2023-12-01"), Time = TimeSpan.Parse("10:00"), Status = "Scheduled" },
-                    new Appointment { PatientUserID = 2, DoctorID = 2, Date = DateTime.Parse("2023-12-02"), Time = TimeSpan.Parse("11:00"), Status = "Scheduled" }
+                    new Appointment { PatientUserID = 123456, DoctorID = 1, Date = DateTime.Parse("2023-12-01"), Time = TimeSpan.Parse("10:00"), Status = "Scheduled" },
+                    new Appointment { PatientUserID = 123457, DoctorID = 2, Date = DateTime.Parse("2023-12-02"), Time = TimeSpan.Parse("11:00"), Status = "Scheduled" }
                      });
                     context.SaveChanges();
                 }
@@ -69,8 +69,7 @@ namespace Hospital_appointment_system.Data
                 {
                     context.AdminUser.AddRange(new List<AdminUser>
                     {
-                    new AdminUser { Username = "admin1", Password = "hashed_adminpassword", Email = "admin1@example.com" },
-                    new AdminUser { Username = "admin2", Password = "hashed_adminpassword", Email = "admin2@example.com" }
+                    new AdminUser {  Password = "sau", Email = "G123456789@sakarya.edu.tr" },
                      });
                     context.SaveChanges();
                 }
