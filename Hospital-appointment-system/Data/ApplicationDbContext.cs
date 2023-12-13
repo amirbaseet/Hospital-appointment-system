@@ -5,7 +5,7 @@ namespace Hospital_appointment_system.Data
 {
     public class ApplicationDbContext:DbContext
     {
-        private const string ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=Hospital;Trusted_Connection=True;";
+        private const string ConnectionString = @"Server=(localdb)\ProjectModels;Database=Hospital;Trusted_Connection=True;";
 
         public DbSet<Doctor>Doctors { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
@@ -17,7 +17,7 @@ namespace Hospital_appointment_system.Data
         public DbSet <Departments> Departments { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.\;Database=Hospital;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\ProjectModels;Database=Hospital;Trusted_Connection=True;");
         }
     }
 }
