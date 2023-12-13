@@ -1,0 +1,30 @@
+﻿@model IEnumerable<AdminUser>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(modil=>modil.AdminID)</th>
+            <th>@Html.DisplayNameFor(modil=>modil.Password)</th>
+            <th>@Html.DisplayNameFor(modil=>modil.Email)</th>
+            <!-- Add other properties as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var adminUser in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(ModelItem=>adminUser.AdminID)</td>
+                <td>@Html.DisplayFor(ModelItem=>adminUser.Password)</td>
+                <td>@Html.DisplayFor(ModelItem=>adminUser.Email)</td>
+                <!-- Display other properties as needed -->
+            </tr>
+        }
+    </tbody>
+</table>
+
