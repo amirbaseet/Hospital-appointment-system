@@ -9,8 +9,9 @@ namespace Hospital_appointment_system.Data
         {
             using (var serviceScope=applicationBuilder.ApplicationServices.CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetService <ApplicationDbContext >() ;
+                var context = serviceScope.ServiceProvider.GetService <ApplicationDbContext >();
                 context.Database.EnsureCreated();
+
 
                 // Seed Departments
                 if (!context.Departments.Any())
@@ -33,6 +34,16 @@ namespace Hospital_appointment_system.Data
                   });
                      context.SaveChanges();
                 }
+                // Seed Doctors Hours
+                if (!context.Doctors.Any())
+                {
+                    context.Doctors.AddRange(new List<Doctor>
+                    {
+                      new Doctor {  Name = "Dr. Eren Yılmaz", Specialization = "Cardiologist", DepartmentID = 1 },
+                      new Doctor {  Name = "Dr. Ayşe Güneş", Specialization = "Neurologist", DepartmentID = 2 }
+                    });
+                    context.SaveChanges();
+                }  
                 // Seed Working Hours
                 if (!context.WorkingHours.Any())
                 {
@@ -48,28 +59,28 @@ namespace Hospital_appointment_system.Data
                 {
                    context.PatientUsers.AddRange(new List<PatientUser>
                 {
-                     new PatientUser { UserID=123456, Username = "user1", Password = "hashed_password1", Email = "user1@example.com"},
-                     new PatientUser { UserID=123457,Username = "user2", Password = "hashed_password2", Email = "user2@example.com"}
+                     new PatientUser {  Username = "Ali", Password = "123", Email = "Ali@example.com"},
+                     new PatientUser { Username = "Ola", Password = "123", Email = "Ola@example.com"}
                      });
                     context.SaveChanges();
                 }
-                // Seed Appointments
-                if (!context.Appointments.Any())
-                {
-                    context.Appointments.AddRange(new List<Appointment>
-                    {
-                    new Appointment { PatientUserID = 123456, DoctorID = 1, Date = DateTime.Parse("2023-12-01"), Time = TimeSpan.Parse("10:00"), Status = "Scheduled" },
-                    new Appointment { PatientUserID = 123457, DoctorID = 2, Date = DateTime.Parse("2023-12-02"), Time = TimeSpan.Parse("11:00"), Status = "Scheduled" }
-                     });
-                    context.SaveChanges();
-                }
+                //// Seed Appointments
+                //if (!context.Appointments.Any())
+                //{
+                //    context.Appointments.AddRange(new List<Appointment>
+                //    {
+                //    new Appointment { PatientUserID = 1, DoctorID = 1, Date = DateTime.Parse("2023-12-01"), Time = TimeSpan.Parse("10:00"), Status = "Scheduled" },
+                //    new Appointment { PatientUserID = 123457, DoctorID = 2, Date = DateTime.Parse("2023-12-02"), Time = TimeSpan.Parse("11:00"), Status = "Scheduled" }
+                //     });
+                //    context.SaveChanges();
+                //}
 
                 // Seed Admins
                 if (!context.AdminUser.Any())
                 {
                     context.AdminUser.AddRange(new List<AdminUser>
                     {
-                    new AdminUser {  Password = "sau", Email = "G123456789@sakarya.edu.tr" },
+                    new AdminUser {  Password = "sau", Email = "B201210560@sakarya.edu.tr" },
                      });
                     context.SaveChanges();
                 }
