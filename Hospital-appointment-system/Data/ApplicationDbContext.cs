@@ -12,7 +12,6 @@ namespace Hospital_appointment_system.Data
         public DbSet<Doctor>Doctors { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<PatientUser> PatientUsers { get; set; }
-        public DbSet<AdminUser> AdminUser { get; set; }
         public DbSet<Clinic> Clinic { get; set; }
         public DbSet<WorkingHour>WorkingHours { get; set; }
 
