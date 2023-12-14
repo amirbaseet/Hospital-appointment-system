@@ -13,7 +13,6 @@ namespace Hospital_appointment_system.Models
         // Navigation property for related clinics
         public virtual ICollection<Clinic> Clinics { get; set; }
 
-        // Navigation property for related doctors
-        public virtual ICollection<Doctor> Doctors { get; set; }
+
     }
 }

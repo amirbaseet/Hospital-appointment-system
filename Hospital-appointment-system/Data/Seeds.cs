@@ -39,8 +39,8 @@ namespace Hospital_appointment_system.Data
                 {
                     context.Doctors.AddRange(new List<Doctor>
                     {
-                      new Doctor {  Name = "Dr. Eren Yılmaz", Specialization = "Cardiologist", DepartmentID = 1 },
-                      new Doctor {  Name = "Dr. Ayşe Güneş", Specialization = "Neurologist", DepartmentID = 2 }
+                      new Doctor {  Name = "Dr. Eren Yılmaz", Specialization = "Cardiologist", ClinicID = 1 },
+                      new Doctor {  Name = "Dr. Ayşe Güneş", Specialization = "Neurologist", ClinicID = 2 }
                     });
                     context.SaveChanges();
                 }  
@@ -49,8 +49,8 @@ namespace Hospital_appointment_system.Data
                 {
                     context.WorkingHours.AddRange(new List<WorkingHour>
                     {
-                    new WorkingHour { DoctorID = 1, DayOfWeek = "Monday", StartTime = TimeSpan.Parse("08:00"), EndTime = TimeSpan.Parse("16:00") },
-                    new WorkingHour { DoctorID = 2, DayOfWeek = "Monday", StartTime = TimeSpan.Parse("09:00"), EndTime = TimeSpan.Parse("17:00") }
+                    new WorkingHour { DoctorID = 3, DayOfWeek = "Monday", StartTime = TimeSpan.Parse("08:00"), EndTime = TimeSpan.Parse("16:00") },
+                    new WorkingHour { DoctorID = 4, DayOfWeek = "Monday", StartTime = TimeSpan.Parse("09:00"), EndTime = TimeSpan.Parse("17:00") }
                     });
                     context.SaveChanges();
                 }

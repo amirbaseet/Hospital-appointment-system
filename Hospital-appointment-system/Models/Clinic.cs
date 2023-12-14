@@ -9,5 +9,8 @@
 
         // Navigation property for related department
         public virtual Departments Department { get; set; }
+
+        // Navigation property for related doctors
+        public virtual ICollection<Doctor> Doctors { get; set; }
     }
 }

@@ -9,11 +9,11 @@ namespace Hospital_appointment_system.Models
         public int DoctorID { get; set; }
         public string Name { get; set; }
         public string Specialization { get; set; }
-        [ForeignKey("Departments")]
-        public int DepartmentID { get; set; }
+        [ForeignKey("Clinic")]
+        public int ClinicID { get; set; }
 
         // Navigation property for related department
-        public virtual Departments Department { get; set; }
+        public virtual Clinic Clinic { get; set; }
 
         // Navigation property for working hours
         public virtual ICollection<WorkingHour> WorkingHours { get; set; }

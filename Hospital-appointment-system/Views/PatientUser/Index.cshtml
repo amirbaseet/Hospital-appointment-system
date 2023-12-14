@@ -1,0 +1,36 @@
+﻿@model IEnumerable<PatientUser>
+
+@{
+    ViewData["Title"] = "Patient Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(modil=>modil.UserID)</th>
+            <th>@Html.DisplayNameFor(modil=>modil.Username)</th>
+            <th>@Html.DisplayNameFor(modil=>modil.Password)</th>
+            <th>@Html.DisplayNameFor(modil=>modil.Email)</th>
+            <!-- Add other properties as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var adminUser in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(ModelItem=>adminUser.UserID)</td>
+                <td>@Html.DisplayFor(ModelItem=>adminUser.Username)</td>
+                <td>@Html.DisplayFor(ModelItem=>adminUser.Password)</td>
+                <td>@Html.DisplayFor(ModelItem=>adminUser.Email)</td>
+                <!-- Display other properties as needed -->
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Create">Add a Pationet</a>
+</div><div>
+    <a asp-action="Delete">Delete a Pationet</a>
+</div>
