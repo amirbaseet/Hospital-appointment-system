@@ -1,4 +1,6 @@
 using Hospital_appointment_system.Data;
+using Hospital_appointment_system.Interfaces;
+using Hospital_appointment_system.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 
@@ -6,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IPatientUserRepository, PatientUserRepository>();
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
