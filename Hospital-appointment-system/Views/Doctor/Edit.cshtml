@@ -19,7 +19,7 @@
 		<input asp-for="doctor.Specialization" class="form-control" />
 	</div>
 	<div class="input-group mb-3">
-		<label asp-for="doctor.ClinicID" class="input-group-text"></label>
+		<label asp-for="doctor.ClinicID" class="input-group-text">Clinic</label>
 		<select class="form-select" id="inputGroupSelect01" asp-for="doctor.ClinicID">
 			<option selected>Choose...</option>
 			@foreach (var clinics in Model.clinicList)
