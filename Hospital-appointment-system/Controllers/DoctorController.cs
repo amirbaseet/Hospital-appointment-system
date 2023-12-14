@@ -33,7 +33,7 @@ namespace Hospital_appointment_system.Controllers
 		public IActionResult Create(DoctorViewModel obj)
 		{
             var doctor = obj.doctor;
-            if(doctor.DepartmentID>0&& doctor.Specialization != string.Empty&& doctor.Name != string.Empty)
+            if(doctor.ClinicID > 0&& doctor.Specialization != string.Empty&& doctor.Name != string.Empty)
             {
 				_context.Doctors.Add(obj.doctor);
 				_context.SaveChanges();
@@ -64,7 +64,7 @@ namespace Hospital_appointment_system.Controllers
 		public IActionResult Edit(DoctorViewModel obj)
 		{
 			var doctor = obj.doctor;
-			if (doctor.DepartmentID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
+			if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
 			{
 				_context.Doctors.Update(obj.doctor);
 				_context.SaveChanges();
@@ -93,9 +93,9 @@ namespace Hospital_appointment_system.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(int? id)
+        public IActionResult DeletePOST(DoctorViewModel id)
         {
-            var obj = _context.Doctors.Find(id);
+            var obj = _context.Doctors.Find(id.doctor.DoctorID);
             if (obj == null)
             {
                 return NotFound();

@@ -45,15 +45,15 @@ namespace Hospital_appointment_system.Data
                     context.SaveChanges();
                 }  
                 // Seed Working Hours
-                if (!context.WorkingHours.Any())
-                {
-                    context.WorkingHours.AddRange(new List<WorkingHour>
-                    {
-                    new WorkingHour { DoctorID = 3, DayOfWeek = "Monday", StartTime = TimeSpan.Parse("08:00"), EndTime = TimeSpan.Parse("16:00") },
-                    new WorkingHour { DoctorID = 4, DayOfWeek = "Monday", StartTime = TimeSpan.Parse("09:00"), EndTime = TimeSpan.Parse("17:00") }
-                    });
-                    context.SaveChanges();
-                }
+                //if (!context.WorkingHours.Any())
+                //{
+                //    context.WorkingHours.AddRange(new List<WorkingHour>
+                //    {
+                //    new WorkingHour { DoctorID = 3, DayOfWeek = "Monday", StartTime = TimeSpan.Parse("08:00"), EndTime = TimeSpan.Parse("16:00") },
+                //    new WorkingHour { DoctorID = 4, DayOfWeek = "Monday", StartTime = TimeSpan.Parse("09:00"), EndTime = TimeSpan.Parse("17:00") }
+                //    });
+                //    context.SaveChanges();
+                //}
                 // Seed Users
                 if (!context.PatientUsers.Any())
                 {
