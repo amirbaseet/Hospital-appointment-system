@@ -1,0 +1,35 @@
+﻿@model DoctorViewModel
+
+
+<form method="post" asp-action="Edit">
+	<div calss="border p-3 mt-4">
+		<div calss="row pd-2">
+			<h2 class="text-primary">Edit Doctor</h2>
+			<hr />
+
+		</div>
+	</div>
+	<div class="mb-3">
+		<label asp-for="doctor.Name"></label>
+		<input asp-for="doctor.Name" class="form-control" />
+	</div>
+	<div class="mb-3">
+		<label asp-for="doctor.Specialization"></label>
+		<input asp-for="doctor.Specialization" class="form-control" />
+	</div>
+	<div class="input-group mb-3">
+		<label asp-for="doctor.DepartmentID" class="input-group-text"></label>
+		<select class="form-select" id="inputGroupSelect01" asp-for="doctor.DepartmentID">
+			<option selected>Choose...</option>
+			@foreach (var clinics in Model.clinicList)
+			{
+				<option value="@clinics.ClinicID">@clinics.Name</option>
+			}
+		</select>
+	</div>
+	<button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+	<a asp-controller="Doctor" asp-action="Index" class="btn btn-secondary" style="width:150px">
+		Back to List
+	</a>
+</form>
+
