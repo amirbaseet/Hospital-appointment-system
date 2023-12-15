@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_appointment_system.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231214181627_AddCategoryToDatabase")]
-    partial class AddCategoryToDatabase
+    [Migration("20231213153712_Secound")]
+    partial class Secound
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.25")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -136,6 +136,9 @@ namespace Hospital_appointment_system.Migrations
                     b.Property<int>("ClinicID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DepartmentsDepartmentID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -147,6 +150,8 @@ namespace Hospital_appointment_system.Migrations
                     b.HasKey("DoctorID");
 
                     b.HasIndex("ClinicID");
+
+                    b.HasIndex("DepartmentsDepartmentID");
 
                     b.ToTable("Doctors");
                 });
@@ -237,10 +242,14 @@ namespace Hospital_appointment_system.Migrations
             modelBuilder.Entity("Hospital_appointment_system.Models.Doctor", b =>
                 {
                     b.HasOne("Hospital_appointment_system.Models.Clinic", "Clinic")
-                        .WithMany("Doctors")
+                        .WithMany()
                         .HasForeignKey("ClinicID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Hospital_appointment_system.Models.Departments", null)
+                        .WithMany("Doctors")
+                        .HasForeignKey("DepartmentsDepartmentID");
 
                     b.Navigation("Clinic");
                 });
@@ -256,14 +265,11 @@ namespace Hospital_appointment_system.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("Hospital_appointment_system.Models.Clinic", b =>
-                {
-                    b.Navigation("Doctors");
-                });
-
             modelBuilder.Entity("Hospital_appointment_system.Models.Departments", b =>
                 {
                     b.Navigation("Clinics");
+
+                    b.Navigation("Doctors");
                 });
 
             modelBuilder.Entity("Hospital_appointment_system.Models.Doctor", b =>

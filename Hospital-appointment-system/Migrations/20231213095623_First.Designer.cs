@@ -4,6 +4,7 @@ using Hospital_appointment_system.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_appointment_system.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231213095623_First")]
+    partial class First
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,7 +133,7 @@ namespace Hospital_appointment_system.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorID"), 1L, 1);
 
-                    b.Property<int>("ClinicID")
+                    b.Property<int>("DepartmentID")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -144,7 +146,7 @@ namespace Hospital_appointment_system.Migrations
 
                     b.HasKey("DoctorID");
 
-                    b.HasIndex("ClinicID");
+                    b.HasIndex("DepartmentID");
 
                     b.ToTable("Doctors");
                 });
@@ -234,13 +236,13 @@ namespace Hospital_appointment_system.Migrations
 
             modelBuilder.Entity("Hospital_appointment_system.Models.Doctor", b =>
                 {
-                    b.HasOne("Hospital_appointment_system.Models.Clinic", "Clinic")
+                    b.HasOne("Hospital_appointment_system.Models.Departments", "Department")
                         .WithMany("Doctors")
-                        .HasForeignKey("ClinicID")
+                        .HasForeignKey("DepartmentID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Clinic");
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Hospital_appointment_system.Models.WorkingHour", b =>
@@ -254,14 +256,11 @@ namespace Hospital_appointment_system.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("Hospital_appointment_system.Models.Clinic", b =>
-                {
-                    b.Navigation("Doctors");
-                });
-
             modelBuilder.Entity("Hospital_appointment_system.Models.Departments", b =>
                 {
                     b.Navigation("Clinics");
+
+                    b.Navigation("Doctors");
                 });
 
             modelBuilder.Entity("Hospital_appointment_system.Models.Doctor", b =>
