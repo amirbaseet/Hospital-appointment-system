@@ -1,8 +1,12 @@
-﻿namespace Hospital_appointment_system.Models
+﻿using System.ComponentModel;
+
+namespace Hospital_appointment_system.Models
 {
     public class Clinic
     {
-        public int ClinicID { get; set; }
+
+		[DisplayName("Clinic")]
+		public int ClinicID { get; set; }
         public int DepartmentID { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }

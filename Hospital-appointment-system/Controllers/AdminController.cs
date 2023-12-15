@@ -12,7 +12,7 @@ namespace Hospital_appointment_system.Controllers
         }
         public IActionResult Index()
         {
-           var Admins= _context.AdminUser.ToList();
+            var Admins= _context.AdminUser.ToList();
             return View(Admins);
         }
     }

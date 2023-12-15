@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hospital_appointment_system.Migrations
 {
-    public partial class First : Migration
+    public partial class AddCategoryToDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -81,16 +81,16 @@ namespace Hospital_appointment_system.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Specialization = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DepartmentID = table.Column<int>(type: "int", nullable: false)
+                    ClinicID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Doctors", x => x.DoctorID);
                     table.ForeignKey(
-                        name: "FK_Doctors_Departments_DepartmentID",
-                        column: x => x.DepartmentID,
-                        principalTable: "Departments",
-                        principalColumn: "DepartmentID",
+                        name: "FK_Doctors_Clinic_ClinicID",
+                        column: x => x.ClinicID,
+                        principalTable: "Clinic",
+                        principalColumn: "ClinicID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -161,9 +161,9 @@ namespace Hospital_appointment_system.Migrations
                 column: "DepartmentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctors_DepartmentID",
+                name: "IX_Doctors_ClinicID",
                 table: "Doctors",
-                column: "DepartmentID");
+                column: "ClinicID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkingHours_DoctorID",
@@ -180,9 +180,6 @@ namespace Hospital_appointment_system.Migrations
                 name: "Appointments");
 
             migrationBuilder.DropTable(
-                name: "Clinic");
-
-            migrationBuilder.DropTable(
                 name: "WorkingHours");
 
             migrationBuilder.DropTable(
@@ -190,6 +187,9 @@ namespace Hospital_appointment_system.Migrations
 
             migrationBuilder.DropTable(
                 name: "Doctors");
+
+            migrationBuilder.DropTable(
+                name: "Clinic");
 
             migrationBuilder.DropTable(
                 name: "Departments");
