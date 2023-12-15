@@ -1,0 +1,30 @@
+﻿@model PatientUser
+
+
+<form method="post" asp-action="Edit" class="pt-5">
+	<input asp-for="UserID" hidden />
+	<div calss="border p-3 mt-4">
+		<div calss="row pd-2">
+			<h2 class="text-primary">Edit Patient</h2>
+			<hr />
+
+		</div>
+	</div>
+	<div class="mb-3">
+		<label asp-for="Username"></label>
+		<input asp-for="Username" class="form-control" />
+	</div>
+	<div class="mb-3">
+		<label asp-for="Email"></label>
+		<input type="email" asp-for="Email" class="form-control" />
+	</div>
+	<div class="mb-3">
+		<label asp-for="Password"></label>
+		<input asp-for="Password" class="form-control" />
+	</div>
+	<button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+	<a asp-controller="PatientUser" asp-action="Index" class="btn btn-secondary" style="width:150px">
+		Back to List
+	</a>
+</form>
+

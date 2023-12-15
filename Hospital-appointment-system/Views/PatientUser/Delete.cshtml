@@ -1,58 +1,32 @@
 ﻿@model PatientUser
-@* @model IEnumerable<PatientUser> *@
 
-<h2>Delete Patient</h2>
+<div class="pt-5">
+	<form method="post" asp-action="DeletePOST">
+		<input asp-for="UserID" hidden />
+	<div calss="border p-3 mt-4">
+		<div calss="row pd-2">
+				<h2 class="text-primary">Delete Patient</h2>
+			<hr />
 
-<form asp-action="Delete" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    
-    @* Add form fields for the PatientUser properties *@
-    <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    
-    </div>
-    @* Repeat for other properties like Email, etc. *@
-
-    <div class="form-group">
-        <input type="submit" value="Delete" class="btn btn-primary" />
-    </div>
+		</div>
+	</div>
+	<div class="mb-3">
+		<label asp-for="Username"></label>
+			<input asp-for="Username" disabled class="form-control" />
+	</div>
+	<div class="mb-3">
+		<label asp-for="Email"></label>
+			<input type="email" asp-for="Email" disabled class="form-control" />
+	</div>
+		<div class="mb-3">
+			<label asp-for="Password"></label>
+			<input asp-for="Password" disabled class="form-control" />
+		</div>
+	
+	<button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+		<a asp-controller="PatientUser" asp-action="Index" class="btn btn-secondary" style="width:150px">
+		Back to List
+	</a>
 </form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-@* 
-<h1>Are you sure you want to delete this club?</h1>
-
-<form method="post" asp-action="Delete" enctype="multipart/form-data">
-    <input type="hidden" value="Email" id="Email" />
-    <div class="form-group">
-        <label asp-for="Email">Title</label>
-        <input asp-for="Email" class="form-control" placeholder="Title">
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Username">Description</label>
-        <input asp-for="Username" class="form-control" placeholder="Username">
-        <span asp-validation-for="Username" class="text-danger"></span>
-    </div>
-        <div class="form-group">
-        <label asp-for="Password">Password</label>
-        <input asp-for="Password" class="form-control" placeholder="Password">
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-   
-    </form>
-    <div class="form-group">
-        <form action="Delete" method="post">
-            <input type="hidden" asp-for="Email" />
-            <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
-        </form>
-     </div> *@

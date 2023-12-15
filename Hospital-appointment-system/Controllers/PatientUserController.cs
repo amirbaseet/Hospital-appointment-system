@@ -32,7 +32,6 @@ namespace Hospital_appointment_system.Controllers
             return View();
         }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PatientUser patientUser)
         {
             if (ModelState.IsValid)
@@ -50,19 +49,53 @@ namespace Hospital_appointment_system.Controllers
             // If we reach here, something went wrong, re-show form
             return View(patientUser);
         }
-        // GET: User/Create
-        [HttpGet]
-        public IActionResult Delete()
+		//GET Edit
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (id == null || id == 0)
+			{
+				return NotFound();
+			}
+			var patientsFromDb = await _context.PatientUsers.FindAsync(id);
+			if (patientsFromDb == null)
+			{
+				return NotFound();
+			}
+			return View(patientsFromDb);
+		}
+		//POST Edit
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(PatientUser obj)
+		{
+			if (obj.UserID > 0 && obj.Username != string.Empty && obj.Email!= string.Empty && obj.Password != string.Empty)
+			{
+				_context.PatientUsers.Update(obj);
+				_context.SaveChanges();
+			}
+
+			return RedirectToAction("Index");
+		}
+		// GET: User/Delete
+		[HttpGet]
+        public async Task<IActionResult> DeleteAsync(int? id)
         {
-            return View();
-        }
-        // POST: User/Delete/5
+			if (id == null || id == 0)
+			{
+				return NotFound();
+			}
+			var patientsFromDb = await _context.PatientUsers.FindAsync(id);
+			if (patientsFromDb == null)
+			{
+				return NotFound();
+			}
+			return View(patientsFromDb);
+		}
         [HttpPost]
-        //[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(string Email)
+        public async Task<IActionResult> DeletePOST(PatientUser patientsFromDb)
         {
-            var patient = await _PatientUserRepository.GetByEmailAsync(Email);
+            var patient = await _context.PatientUsers.FindAsync(patientsFromDb.UserID);
             if (patient == null) 
             {
                 // Add an error to the ModelState
@@ -72,24 +105,6 @@ namespace Hospital_appointment_system.Controllers
             _PatientUserRepository.Delete(patient);
             return RedirectToAction("Index");
         }
-
-        //[HttpGet]
-        //public IActionResult Delete()
-        //{
-        //    return View();
-        //}
-        //[HttpPost, ActionName("Delete")]
-        //public async Task<IActionResult> Delete(string Email)
-        //{
-        //    var patient = await _PatientUserRepository.GetByEmailAsync(Email);
-
-        //    if (patient == null)
-        //    {
-        //        return View("Index");
-        //    }
-        //    _PatientUserRepository.Delete(patient);
-        //    return RedirectToAction("Index");
-        //}
     }
 
 }

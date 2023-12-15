@@ -15,20 +15,22 @@ namespace Hospital_appointment_system.Controllers
         {
             _context = context;
         }
-        public IActionResult Index() {
+        //Index
+        public async Task<IActionResult> Index()
+        {
 
-            var Doctors = _context.Doctors.ToList();
+            var Doctors = await _context.Doctors.ToListAsync();
             return View(Doctors);
         }
 
-        //GET
-        public IActionResult Create() {
+		//GET Create
+		public async Task<IActionResult> Create() {
             var Create = new DoctorViewModel();
-            Create.clinicList=_context.Clinic.ToList();
+            Create.clinicList= await _context.Clinic.ToListAsync();
             return View(Create);
         }
-        //POST
-        [HttpPost]
+		//POST Create
+		[HttpPost]
         [ValidateAntiForgeryToken]
 		public IActionResult Create(DoctorViewModel obj)
 		{
@@ -41,27 +43,27 @@ namespace Hospital_appointment_system.Controllers
             
 			return RedirectToAction("Index");
 		}
-		//GET
-		public IActionResult Edit(int? id)
+		//GET Edit
+		public async Task<IActionResult> Edit(int? id)
 		{
 			if(id == null || id == 0)
 			{
 				return NotFound();
 			}
-			var DoctorFromDb = _context.Doctors.Find(id);
+			var DoctorFromDb = await _context.Doctors.FindAsync(id);
 			if (DoctorFromDb == null)
 			{
 				return NotFound();
 			}
             var edit = new DoctorViewModel();
 			edit.doctor = DoctorFromDb;
-            edit.clinicList = _context.Clinic.ToList();
+            edit.clinicList = await _context.Clinic.ToListAsync();
             return View(edit);
 		}
-		//POST
+		//POST Edit
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Edit(DoctorViewModel obj)
+		public async Task<IActionResult> Edit(DoctorViewModel obj)
 		{
 			var doctor = obj.doctor;
 			if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
@@ -72,30 +74,29 @@ namespace Hospital_appointment_system.Controllers
 
 			return RedirectToAction("Index");
 		}
-
-        //GET
-        public IActionResult Delete(int? id)
+		//GET Delete
+		public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var DoctorFromDb = _context.Doctors.Find(id);
+            var DoctorFromDb = await _context.Doctors.FindAsync(id);
             if (DoctorFromDb == null)
             {
                 return NotFound();
             }
             var edit = new DoctorViewModel();
             edit.doctor = DoctorFromDb;
-            edit.clinicList = _context.Clinic.ToList();
+            edit.clinicList = await _context.Clinic.ToListAsync();
             return View(edit);
         }
-        //POST
-        [HttpPost]
+		//POST Delete
+		[HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(DoctorViewModel id)
+        public async Task<IActionResult> DeletePOST(DoctorViewModel id)
         {
-            var obj = _context.Doctors.Find(id.doctor.DoctorID);
+            var obj = await _context.Doctors.FindAsync(id.doctor.DoctorID);
             if (obj == null)
             {
                 return NotFound();
