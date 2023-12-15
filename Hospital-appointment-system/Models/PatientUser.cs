@@ -16,6 +16,6 @@ namespace Hospital_appointment_system.Models
         public string Password { get; set; } // Consider encryption or hashing
         public string Email { get; set; }
         // Navigation property for appointments
-        public virtual ICollection<Appointment> Appointments { get; set; }
+        //public virtual ICollection<Appointment> Appointments { get; set; }
     }
 }
