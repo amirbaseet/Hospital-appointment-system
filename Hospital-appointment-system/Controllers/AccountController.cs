@@ -75,7 +75,8 @@ namespace Hospital_appointment_system.Controllers
             var newUser = new PatientUser()
             {
                 Email = registerViewModel.EmailAddress,
-                UserName = registerViewModel.Username
+                UserName = registerViewModel.Username,
+                Gender=registerViewModel.Gender
             };
             var  newUserResponse= await _userManeger.CreateAsync(newUser, registerViewModel.Password);
             if (newUserResponse.Succeeded)

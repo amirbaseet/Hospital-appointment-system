@@ -170,19 +170,31 @@ namespace Hospital_appointment_system.Data
 
                 //Users
                 var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<PatientUser>>();
-                string adminUserEmail = "teddysmithdeveloper@gmail.com";
+                string adminUserEmail = "G211210578@sakarya.edu.tr";
 
                 var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
                 if (adminUser == null)
                 {
                     var newAdminUser = new PatientUser()
                     {
-                        UserName = "teddysmithdev",
+                        UserName = "AmroBASEET",
                         Email = adminUserEmail,
+                        Gender=Enum.GenderCategory.male ,
+                        EmailConfirmed = true,
+
+                    };
+                    await userManager.CreateAsync(newAdminUser, "sau123");
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                    adminUserEmail = "B201210560@sakarya.edu.tr";
+                    newAdminUser = new PatientUser()
+                    {
+                        UserName = "SuhaibOTHMAN",
+                        Email = adminUserEmail,
+                        Gender=Enum.GenderCategory.male ,
                         EmailConfirmed = true,
                       
                     };
-                    await userManager.CreateAsync(newAdminUser, "Coding@1234?");
+                    await userManager.CreateAsync(newAdminUser, "sau123");
                     await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
                 }
                 string appUserEmail = "user@etickets.com";
@@ -194,9 +206,10 @@ namespace Hospital_appointment_system.Data
                     {
                         UserName = "app-user",
                         Email = appUserEmail,
+                        Gender=Enum.GenderCategory.male ,
                         EmailConfirmed = true,
                     };
-                    await userManager.CreateAsync(newAppUser, "Coding@1234?");
+                    await userManager.CreateAsync(newAppUser, "sau123");
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.User);
                 }
             }

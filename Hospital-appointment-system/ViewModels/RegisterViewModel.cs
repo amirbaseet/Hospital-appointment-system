@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Hospital_appointment_system.Data.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_appointment_system.ViewModels
 {
@@ -12,7 +13,10 @@ namespace Hospital_appointment_system.ViewModels
         [Display(Name = "Username")]
         public string Username { get; set; }
         [Required]
-        [DataType(DataType.Password)]
+        public GenderCategory Gender{ get; set; }
+
+
+        [Required]
         public string Password { get; set; }
         [Display(Name = "Confirm password")]
         [Required(ErrorMessage = "Confirm password is required")]

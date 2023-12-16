@@ -21,8 +21,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 });
 // Add ASP.NET Core Identity services
-builder.Services.AddIdentity<PatientUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddIdentity<PatientUser, IdentityRole>()
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<PatientUser, IdentityRole>(options =>
+{
+    // Password settings
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+}).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -31,15 +40,9 @@ var app = builder.Build();
 
 var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
-//Seeds.SeedData(services);
+
 var userManager = services.GetRequiredService<UserManager<PatientUser>>();
-//Seeds.SeedPatientUsers(userManager);
-//Seeds.SeedData(app);
-//if (args.Length == 1 && args[0].ToLower() == "seeddata")
-//{
-//    await Seeds.SeedUsersAndRolesAsync(app);
-//    //Seed.SeedData(app);
-//}
+
     await Seeds.SeedUsersAndRolesAsync(app);
 
 
