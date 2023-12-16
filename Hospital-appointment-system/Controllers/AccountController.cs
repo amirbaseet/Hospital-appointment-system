@@ -76,7 +76,8 @@ namespace Hospital_appointment_system.Controllers
             {
                 Email = registerViewModel.EmailAddress,
                 UserName = registerViewModel.Username,
-                Gender=registerViewModel.Gender
+                Gender = registerViewModel.Gender,
+                EmailConfirmed = true
             };
             var  newUserResponse= await _userManeger.CreateAsync(newUser, registerViewModel.Password);
             if (newUserResponse.Succeeded)
