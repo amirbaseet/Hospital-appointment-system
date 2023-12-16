@@ -92,11 +92,11 @@ namespace Hospital_appointment_system.Controllers
             return View(registerViewModel);
             //return RedirectToAction("Index", "Home");
         }
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _signInManeger.SignOutAsync();
-            return RedirectToAction("Login", "Acount");
+            return RedirectToAction("Index", "Home");
         }
 
     }
