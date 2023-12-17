@@ -1,36 +1,58 @@
-﻿@model IEnumerable<PatientUser>
+@model IEnumerable<PatientUser>
 
 @{
     ViewData["Title"] = "Patient Dashboard";
 }
 
-<h2>Admin Dashboard</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(modil=>modil.Id)</th>
-            <th>@Html.DisplayNameFor(modil=>modil.UserName)</th>
-            <th>@Html.DisplayNameFor(modil=>modil.Gender)</th>
-            <th>@Html.DisplayNameFor(modil=>modil.Email)</th>
-            <!-- Add other properties as needed -->
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var adminUser in Model)
-        {
+<div class="container p-3 ">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Patients List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="PatientUser" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-person-add"></i> &nbsp; Add a Patient
+            </a>
+        </div>
+    </div>
+    <br />
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
             <tr>
-                <td>@Html.DisplayFor(ModelItem=>adminUser.Id)</td>
+                 <td>@Html.DisplayFor(ModelItem=>adminUser.Id)</td>
                 <td>@Html.DisplayFor(ModelItem=>adminUser.UserName)</td>
                 <th>@Html.DisplayFor(ModelItem=>adminUser.Gender)</th>
                 <td>@Html.DisplayFor(ModelItem=>adminUser.Email)</td>
                 <!-- Display other properties as needed -->
+                <th></th>
+
             </tr>
-        }
-    </tbody>
-</table>
-<div>
-    <a asp-action="Create">Add a Pationet</a>
-</div><div>
-    <a asp-action="Delete">Delete a Pationet</a>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td width="20%">
+                        @obj.Username
+                    </td>
+                    <td width="50%">
+                        @obj.Email
+                    </td>
+                    <td width="30%">
+                        @obj.Password
+                    </td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="PatientUser" asp-action="Edit" asp-route-id="@obj.UserID"
+                               class="btn btn-warning mx-2"> <i class="bi bi-pencil-square"></i>Edit</a>
+                            <a asp-controller="PatientUser" asp-action="Delete" asp-route-id="@obj.UserID"
+                               class="btn btn-danger mx-2"> <i class="bi bi-trash"></i>Delete</a>
+
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
 </div>

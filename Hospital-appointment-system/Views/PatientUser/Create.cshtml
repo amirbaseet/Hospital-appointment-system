@@ -1,6 +1,27 @@
-﻿@* @model IEnumerable<PatientUser> *@
+@* @model IEnumerable<PatientUser> *@
 @model Hospital_appointment_system.Models.PatientUser;
-<h2>Create Patient</h2>
+<div class="pt-5">
+	<form method="post" asp-controller="PatientUser" asp-action="Create">
+		<div calss="border p-3 mt-4">
+			<div calss="row pd-2">
+				<h2 class="text-primary">Create Patient</h2>
+				<hr />
+			</div>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Username" class="control-label"></label>
+			<input asp-for="Username" class="form-control" />
+			<span asp-validation-for="Username" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Email" class="control-label"></label>
+			<input type="email" asp-for="Email" class="form-control" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+		</div><div class="mb-3">
+			<label asp-for="Password" class="control-label"></label>
+			<input type="password" asp-for="Password" class="form-control" type="password" />
+		</div>
+
 
 <form asp-action="Create" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -26,15 +47,19 @@
     </div> *@
     @* Repeat for other properties like Email, etc. *@
 
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
-    </div>
-</form>
+		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+
+		<a asp-controller="PatientUser" asp-action="Index" class="btn btn-secondary" style="width:150px">
+			Back to List
+		</a>
+	</form>
 </div>
 
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 }
+
