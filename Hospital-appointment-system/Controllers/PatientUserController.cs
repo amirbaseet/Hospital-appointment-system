@@ -90,7 +90,7 @@ namespace Hospital_appointment_system.Controllers
 				return NotFound();
 			}
 			return View(patientsFromDb);
-		}
+		} 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePOST(PatientUser patientsFromDb)
