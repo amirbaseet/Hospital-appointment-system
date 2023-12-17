@@ -42,7 +42,7 @@ var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 
 var userManager = services.GetRequiredService<UserManager<PatientUser>>();
-
+    Seeds.SeedData(app);
     await Seeds.SeedUsersAndRolesAsync(app);
 
 
@@ -59,13 +59,18 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication(); // This needs to come before UseAuthorization
 app.UseAuthorization();
-app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "dashboard",
+        pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+});
 
 
 app.Run();

@@ -47,7 +47,9 @@ namespace Hospital_appointment_system.Controllers
         
                     if(result.Succeeded) 
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Privacy", "Home");
+                        // Redirect to the Dashboard action of the DashboardController
+                        //return RedirectToAction("Index", "Dashboard");
                     }
                 }
                 TempData["Error"] = "Wrong credentials.Please  Try again ";
@@ -83,7 +85,7 @@ namespace Hospital_appointment_system.Controllers
             if (newUserResponse.Succeeded)
             {
                 await _userManeger.AddToRoleAsync(newUser, UserRoles.User);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Privacy", "Home");
             }
             foreach (var error in newUserResponse.Errors)
             {

@@ -1,12 +1,12 @@
 ﻿using Hospital_appointment_system.Data;
 using Hospital_appointment_system.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
 namespace Hospital_appointment_system.Controllers
 {
-
     public class DoctorController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -15,18 +15,21 @@ namespace Hospital_appointment_system.Controllers
         {
             _context = context;
         }
+
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Index() {
 
             var Doctors = _context.Doctors.ToList();
             return View(Doctors);
         }
-
+        [Authorize(Roles = UserRoles.Admin)]
         //GET
         public IActionResult Create() {
             var Create = new DoctorViewModel();
             Create.clinicList=_context.Clinic.ToList();
             return View(Create);
         }
+        [Authorize(Roles = UserRoles.Admin)]
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
