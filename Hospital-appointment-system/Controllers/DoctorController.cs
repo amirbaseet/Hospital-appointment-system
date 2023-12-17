@@ -17,14 +17,15 @@ namespace Hospital_appointment_system.Controllers
         }
 
         [Authorize(Roles = UserRoles.Admin)]
-        public IActionResult Index() {
-
+        public async Task<IActionResult> Index()
+        {
             var Doctors = _context.Doctors.ToList();
             return View(Doctors);
         }
         [Authorize(Roles = UserRoles.Admin)]
         //GET
-        public IActionResult Create() {
+        public async Task<IActionResult> Create()
+        {
             var Create = new DoctorViewModel();
             Create.clinicList=_context.Clinic.ToList();
             return View(Create);
@@ -44,10 +45,10 @@ namespace Hospital_appointment_system.Controllers
             
 			return RedirectToAction("Index");
 		}
-		//GET
-		public IActionResult Edit(int? id)
-		{
-			if(id == null || id == 0)
+        //GET
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || id == 0)
 			{
 				return NotFound();
 			}
@@ -64,9 +65,9 @@ namespace Hospital_appointment_system.Controllers
 		//POST
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Edit(DoctorViewModel obj)
-		{
-			var doctor = obj.doctor;
+        public async Task<IActionResult> Edit(DoctorViewModel obj)
+        {
+            var doctor = obj.doctor;
 			if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
 			{
 				_context.Doctors.Update(obj.doctor);
@@ -77,7 +78,7 @@ namespace Hospital_appointment_system.Controllers
 		}
 
         //GET
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
@@ -96,7 +97,7 @@ namespace Hospital_appointment_system.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(DoctorViewModel id)
+        public async Task<IActionResult> DeletePOST(DoctorViewModel id)
         {
             var obj = _context.Doctors.Find(id.doctor.DoctorID);
             if (obj == null)
