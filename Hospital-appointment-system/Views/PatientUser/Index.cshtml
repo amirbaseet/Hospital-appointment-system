@@ -1,8 +1,9 @@
-﻿@model IEnumerable<PatientUser>
+@model IEnumerable<PatientUser>
 
 @{
     ViewData["Title"] = "Patient Dashboard";
 }
+
 <div class="container p-3 ">
     <div class="row pt-4">
         <div class="col-6">
@@ -18,10 +19,13 @@
     <table class="table table-bordered table-striped" style="width:100%">
         <thead>
             <tr>
-                <th>@Html.DisplayNameFor(modil=>modil.Username)</th>
-                <th>@Html.DisplayNameFor(modil=>modil.Email)</th>
-                <th>@Html.DisplayNameFor(modil=>modil.Password)</th>
+                 <td>@Html.DisplayFor(ModelItem=>adminUser.Id)</td>
+                <td>@Html.DisplayFor(ModelItem=>adminUser.UserName)</td>
+                <th>@Html.DisplayFor(ModelItem=>adminUser.Gender)</th>
+                <td>@Html.DisplayFor(ModelItem=>adminUser.Email)</td>
+                <!-- Display other properties as needed -->
                 <th></th>
+
             </tr>
         </thead>
         <tbody>

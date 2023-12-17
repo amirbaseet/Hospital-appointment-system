@@ -1,4 +1,6 @@
 ﻿using Hospital_appointment_system.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Net;
 
 namespace Hospital_appointment_system.Data
 {
@@ -7,16 +9,16 @@ namespace Hospital_appointment_system.Data
     {
         public static void SeedData(IApplicationBuilder applicationBuilder)
         {
-            using (var serviceScope=applicationBuilder.ApplicationServices.CreateScope())
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetService <ApplicationDbContext >();
+                var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
                 context.Database.EnsureCreated();
 
 
                 // Seed Departments
                 if (!context.Departments.Any())
                 {
-                  context.Departments.AddRange(new List<Departments>
+                    context.Departments.AddRange(new List<Departments>
                   {
                      new Departments { Name = "Cardiology", Description = "Heart related diseases and treatments" },
                      new Departments { Name = "Neurology", Description = "Brain and nervous system related diseases and treatments" }
@@ -27,12 +29,12 @@ namespace Hospital_appointment_system.Data
                 // Seed Clinics
                 if (!context.Clinic.Any())
                 {
-                  context.Clinic.AddRange(new List<Clinic>
+                    context.Clinic.AddRange(new List<Clinic>
                   {
                     new Clinic { DepartmentID = 1, Name = "Heart Clinic", Location = "Building A, Floor 3" },
                     new Clinic { DepartmentID = 2, Name = "Brain Health Clinic", Location = "Building B, Floor 2" }
                   });
-                     context.SaveChanges();
+                    context.SaveChanges();
                 }
                 // Seed Doctors Hours
                 if (!context.Doctors.Any())
@@ -43,7 +45,7 @@ namespace Hospital_appointment_system.Data
                       new Doctor {  Name = "Dr. Ayşe Güneş", Specialization = "Neurologist", ClinicID = 2 }
                     });
                     context.SaveChanges();
-                }  
+                }
                 // Seed Working Hours
                 //if (!context.WorkingHours.Any())
                 //{
@@ -54,16 +56,7 @@ namespace Hospital_appointment_system.Data
                 //    });
                 //    context.SaveChanges();
                 //}
-                // Seed Users
-                if (!context.PatientUsers.Any())
-                {
-                   context.PatientUsers.AddRange(new List<PatientUser>
-                {
-                     new PatientUser {  Username = "Ali", Password = "123", Email = "Ali@example.com"},
-                     new PatientUser { Username = "Ola", Password = "123", Email = "Ola@example.com"}
-                     });
-                    context.SaveChanges();
-                }
+                
                 //// Seed Appointments
                 //if (!context.Appointments.Any())
                 //{
@@ -75,18 +68,70 @@ namespace Hospital_appointment_system.Data
                 //    context.SaveChanges();
                 //}
 
-                // Seed Admins
-                if (!context.AdminUser.Any())
-                {
-                    context.AdminUser.AddRange(new List<AdminUser>
-                    {
-                    new AdminUser {  Password = "sau", Email = "B201210560@sakarya.edu.tr" },
-                     });
-                    context.SaveChanges();
-                }
-
             }
+        } 
 
+
+
+
+                public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                //Roles
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+
+                //Users
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<PatientUser>>();
+                string adminUserEmail = "G211210578@sakarya.edu.tr";
+
+                var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+                if (adminUser == null)
+                {
+                    var newAdminUser = new PatientUser()
+                    {
+                        UserName = "AmroBASEET",
+                        Email = adminUserEmail,
+                        Gender=Enum.GenderCategory.male ,
+                        EmailConfirmed = true,
+
+                    };
+                    await userManager.CreateAsync(newAdminUser, "sau123");
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                    adminUserEmail = "B201210560@sakarya.edu.tr";
+                    newAdminUser = new PatientUser()
+                    {
+                        UserName = "SuhaibOTHMAN",
+                        Email = adminUserEmail,
+                        Gender=Enum.GenderCategory.male ,
+                        EmailConfirmed = true,
+                      
+                    };
+                    await userManager.CreateAsync(newAdminUser, "sau123");
+                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                }
+                string appUserEmail = "user@etickets.com";
+
+                var appUser = await userManager.FindByEmailAsync(appUserEmail);
+                if (appUser == null)
+                {
+                    var newAppUser = new PatientUser()
+                    {
+                        UserName = "app-user",
+                        Email = appUserEmail,
+                        Gender=Enum.GenderCategory.male ,
+                        EmailConfirmed = true,
+                    };
+                    await userManager.CreateAsync(newAppUser, "sau123");
+                    await userManager.AddToRoleAsync(newAppUser, UserRoles.User);
+                }
+            }
         }
     }
 }
+

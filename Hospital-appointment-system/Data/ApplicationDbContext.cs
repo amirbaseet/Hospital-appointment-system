@@ -1,9 +1,11 @@
 ﻿using Hospital_appointment_system.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hospital_appointment_system.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<PatientUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -17,6 +19,6 @@ namespace Hospital_appointment_system.Data
         public DbSet<WorkingHour> WorkingHours { get; set; }
 
         public DbSet<Departments> Departments { get; set; }
-       
+
     }
 }
