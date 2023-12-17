@@ -1,18 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Hospital_appointment_system.Data.Enum;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_appointment_system.Models
 {
-    public class PatientUser
+    public class PatientUser:IdentityUser
     {
-        [Key]
-        public int UserID { get; set; }
-        
-        //public int TCID { get; set; }
-
-        public string Username { get; set; }
-        public string Password { get; set; } // Consider encryption or hashing
-        public string Email { get; set; }
-        // Navigation property for appointments
-        //public virtual ICollection<Appointment> Appointments { get; set; }
+        public  GenderCategory Gender { get; set; } // Consider encryption or hashing
     }
 }

@@ -1,4 +1,4 @@
-﻿@* @model IEnumerable<PatientUser> *@
+@* @model IEnumerable<PatientUser> *@
 @model Hospital_appointment_system.Models.PatientUser;
 <div class="pt-5">
 	<form method="post" asp-controller="PatientUser" asp-action="Create">
@@ -22,7 +22,33 @@
 			<input type="password" asp-for="Password" class="form-control" type="password" />
 		</div>
 
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    @* Add form fields for the PatientUser properties *@
+@*     <div class="form-group">
+        <label asp-for="UserName" class="control-label"></label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+     <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" type="password" />
+    </div> *@
+ @*    <div class="form-group">
+        <label asp-for="Appointments" class="control-label"></label>
+        <input asp-for="Appointments" class="form-control" />
+    </div> *@
+    @* Repeat for other properties like Email, etc. *@
+
 		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+
 
 		<a asp-controller="PatientUser" asp-action="Index" class="btn btn-secondary" style="width:150px">
 			Back to List
