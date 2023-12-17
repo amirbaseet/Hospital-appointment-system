@@ -2,9 +2,13 @@
 using Hospital_appointment_system.Interfaces;
 using Hospital_appointment_system.Models;
 using Hospital_appointment_system.Repository;
+using Hospital_appointment_system.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 
 namespace Hospital_appointment_system.Controllers
 {
@@ -12,11 +16,13 @@ namespace Hospital_appointment_system.Controllers
     {
         private readonly IPatientUserRepository _PatientUserRepository;
         private readonly ApplicationDbContext _context;
+        private readonly Seeds _seeds;
 
-        public PatientUserController( IPatientUserRepository patientUserRepository, ApplicationDbContext context)
+        public PatientUserController( IPatientUserRepository patientUserRepository, ApplicationDbContext context, Seeds seeds)
         {
             _PatientUserRepository = patientUserRepository;
             _context = context;
+            _seeds = seeds;
         }
         public async Task <IActionResult> Index()
         {
@@ -27,23 +33,26 @@ namespace Hospital_appointment_system.Controllers
         }
         // GET: User/Create
         [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
+		public IActionResult Create()
+		{
+			return View();
         }
-        [HttpPost]
-        public async Task<IActionResult> Create(PatientUser patientUser)
+		//var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<PatientUser>>();
+		[HttpPost]
+
+        public async Task<IActionResult> Create(RegisterViewModel patientUser)
         {
             if (ModelState.IsValid)
             {
 
-                if (await _PatientUserRepository.CheckUserbyEmail(patientUser.Email))
+                if (await _PatientUserRepository.CheckUserbyEmail(patientUser.EmailAddress))
                 {
                     // Add an error to the ModelState
                     ModelState.AddModelError(string.Empty, "User already exists with the given email.");
                     return View(patientUser);
                 }
-                _PatientUserRepository.Add(patientUser);
+                await _seeds.RegisterPatientUserAsync(patientUser);
+                //_PatientUserRepository.Add(patientUser);
                 return RedirectToAction(nameof(Index));
             }
             // If we reach here, something went wrong, re-show form
@@ -66,9 +75,10 @@ namespace Hospital_appointment_system.Controllers
 		//POST Edit
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(PatientUser obj)
+		public async Task<IActionResult> Edit(RegisterViewModel obj)
 		{
-			if (obj.UserID > 0 && obj.Username != string.Empty && obj.Email!= string.Empty && obj.Password != string.Empty)
+			//if (obj.UserID > 0 && obj.Username != string.Empty && obj.Email!= string.Empty && obj.Password != string.Empty)
+			if (obj.Username != string.Empty && obj.Emi!= string.Empty && obj.Password != string.Empty)
 			{
 				_context.PatientUsers.Update(obj);
 				_context.SaveChanges();

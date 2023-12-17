@@ -1,8 +1,6 @@
-﻿@model PatientUser
-
+﻿@model RegisterViewModel
 <div class="pt-5">
 	<form method="post" asp-action="DeletePOST">
-		<input asp-for="UserID" hidden />
 	<div calss="border p-3 mt-4">
 		<div calss="row pd-2">
 				<h2 class="text-primary">Delete Patient</h2>
@@ -15,13 +13,13 @@
 			<input asp-for="Username" disabled class="form-control" />
 	</div>
 	<div class="mb-3">
-		<label asp-for="Email"></label>
-			<input type="email" asp-for="Email" disabled class="form-control" />
+		<label asp-for="EmailAddress"></label>
+			<input type="email" asp-for="EmailAddress" disabled class="form-control" />
 	</div>
-		<div class="mb-3">
-			<label asp-for="Password"></label>
-			<input asp-for="Password" disabled class="form-control" />
-		</div>
+	<div class="mb-3">
+		<label asp-for="Password"></label>
+		<input asp-for="Password" disabled class="form-control" />
+	</div>
 	
 	<button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
 		<a asp-controller="PatientUser" asp-action="Index" class="btn btn-secondary" style="width:150px">

@@ -92,7 +92,6 @@ namespace Hospital_appointment_system.Controllers
                 ModelState.AddModelError("", error.Description);
             }
             return View(registerViewModel);
-            //return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         public async Task<IActionResult> Logout()
