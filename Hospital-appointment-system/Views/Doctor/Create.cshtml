@@ -1,7 +1,7 @@
 ﻿@model DoctorViewModel
 
 
-<form method="post" asp-action="Create">
+<form method="post" asp-action="Create" class="pt-5">
 	<div calss="border p-3 mt-4">
 		<div calss="row pd-2">
 			<h2 class="text-primary">Create Doctor</h2>
@@ -28,8 +28,8 @@
 		</select>
 	</div>
 	<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+
 	<a asp-controller="Doctor" asp-action="Index" class="btn btn-secondary" style="width:150px">
 		Back to List
 	</a>
 </form>
-

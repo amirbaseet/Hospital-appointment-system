@@ -20,6 +20,7 @@ namespace Hospital_appointment_system.Repository
 
         public bool Delete(PatientUser patientUser)
         {
+            
             _context.Remove(patientUser);
             return Save();
         }
