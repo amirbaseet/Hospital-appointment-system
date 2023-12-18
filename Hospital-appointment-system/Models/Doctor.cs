@@ -12,14 +12,14 @@ namespace Hospital_appointment_system.Models
         [ForeignKey("Clinic")]
         public int ClinicID { get; set; }
 
-        // Navigation property for related department
-        public virtual Clinic Clinic { get; set; }
+        //// Navigation property for related department
+        //public virtual Clinic Clinic { get; set; }
 
-        // Navigation property for working hours
-        public virtual ICollection<WorkingHour> WorkingHours { get; set; }
+        //// Navigation property for working hours
+        //public virtual ICollection<WorkingHour> WorkingHours { get; set; }
 
-        // Navigation property for appointments
-        public virtual ICollection<Appointment> Appointments { get; set; }
+        //// Navigation property for appointments
+        //public virtual ICollection<Appointment> Appointments { get; set; }
     }
 }
 

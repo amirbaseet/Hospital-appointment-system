@@ -5,16 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Numerics;
 
 namespace Hospital_appointment_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = UserRoles.Admin)]
+    //[Authorize(Roles = UserRoles.Admin)]
     public class DoctorApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-
         public DoctorApiController(ApplicationDbContext context)
         {
             _context = context;
@@ -26,85 +26,58 @@ namespace Hospital_appointment_system.Controllers
         {
             return _context.Doctors.ToList();
         }
-        //public async Task<IActionResult> GetDoctors()
-        //{
-        //    //var doctors = await _context.Doctors.ToListAsync();
-        //    //return Ok(doctors);
-        //}
+        // GET: api/DoctorApi
+        [HttpGet("{id}")]
+        public Doctor Get(int id) 
+        {
+            var doctor  = _context.Doctors.FirstOrDefault(x => x.DoctorID == id);
+            return doctor;
+        }
 
-        //// POST: api/DoctorApi/Create
-        //[HttpPost("Create")]
-        //public async Task<IActionResult> CreateDoctor([FromBody] Doctor doctor)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        [HttpPost]
+        public void Post([FromBody]Doctor doctor) 
+        {
+            _context.Doctors.Add(doctor);
+            _context.SaveChanges();
+        }
+         //PUT: api/DoctorApi/Edit/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditDoctor(int id, [FromBody] Doctor doctor)
+        {
+            var doct=_context.Doctors.FirstOrDefault(x=>x.DoctorID==id);
 
-        //    if (doctor.ClinicID > 0 && !string.IsNullOrEmpty(doctor.Specialization) && !string.IsNullOrEmpty(doctor.Name))
-        //    {
-        //        await _context.Doctors.AddAsync(doctor);
-        //        await _context.SaveChangesAsync();
-        //        return CreatedAtAction("GetDoctors", new { id = doctor.DoctorID }, doctor);
-        //    }
+            if (doct is null)
+            {
+                return NotFound();
+            }
+            else 
+            {
+                doct.Name=doctor.Name;
+                doct.ClinicID=doctor.ClinicID;
+                //doct.Appointments = null;
+                //doct.WorkingHours = null;
+                //doct.Clinic = null;
+                //doct.Clinic=doctor.Clinic;
+                _context.Update(doct);
+                _context.SaveChanges();
+                return Ok();
+            }
+        }
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            var doct = _context.Doctors.FirstOrDefault(x => x.DoctorID == id);
+            if (doct is null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _context.Remove(doct);
+                _context.SaveChanges();
+                return Ok();
+            }
 
-        //    return BadRequest("Invalid doctor data");
-        //}
-
-        //// PUT: api/DoctorApi/Edit/5
-        //[HttpPut("Edit/{id}")]
-        //public async Task<IActionResult> EditDoctor(int id, [FromBody] Doctor doctor)
-        //{
-        //    if (id != doctor.DoctorID)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    _context.Entry(doctor).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!DoctorExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //// DELETE: api/DoctorApi/Delete/5
-        //[HttpDelete("Delete/{id}")]
-        //public async Task<IActionResult> DeleteDoctor(int id)
-        //{
-        //    var doctor = await _context.Doctors.FindAsync(id);
-        //    if (doctor == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Doctors.Remove(doctor);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool DoctorExists(int id)
-        //{
-        //    return _context.Doctors.Any(e => e.DoctorID == id);
-        //}
+        }
     }
 }
