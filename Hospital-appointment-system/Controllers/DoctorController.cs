@@ -1,4 +1,4 @@
-﻿using Hospital_appointment_system.Data;
+using Hospital_appointment_system.Data;
 using Hospital_appointment_system.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

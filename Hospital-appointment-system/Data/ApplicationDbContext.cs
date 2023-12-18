@@ -19,10 +19,6 @@ namespace Hospital_appointment_system.Data
         public DbSet<WorkingHour> WorkingHours { get; set; }
 
         public DbSet<Departments> Departments { get; set; }
-     
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=Hospital;Trusted_Connection=True;");
-        }
+
     }
 }

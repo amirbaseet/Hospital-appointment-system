@@ -43,10 +43,9 @@ namespace Hospital_appointment_system.Controllers
 		{
 			return View();
         }
-		//var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<PatientUser>>();
-		[HttpPost]
-
-        public async Task<IActionResult> Create(RegisterViewModel patientUser)
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(PatientUser patientUser)
         {
             if (ModelState.IsValid)
             {
