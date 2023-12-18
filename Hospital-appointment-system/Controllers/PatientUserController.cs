@@ -20,7 +20,6 @@ namespace Hospital_appointment_system.Controllers
 		private readonly RoleManager<IdentityRole> _roleManager;
 		//private readonly Seeds _seeds;
 
-		//public PatientUserController( IPatientUserRepository patientUserRepository, ApplicationDbContext context, Seeds seeds)
 		public PatientUserController( IPatientUserRepository patientUserRepository, ApplicationDbContext context
             , UserManager<PatientUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -32,8 +31,7 @@ namespace Hospital_appointment_system.Controllers
         }
         public async Task <IActionResult> Index()
         {
-            //var patients = _context.PatientUsers.ToList();
-            //return View(patients);
+   
             IEnumerable<PatientUser> patients =await _PatientUserRepository.GetAll();
             return View(patients);
         }
@@ -45,7 +43,7 @@ namespace Hospital_appointment_system.Controllers
         }
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PatientUser patientUser)
+        public async Task<IActionResult> Create(RegisterViewModel patientUser)
         {
             if (ModelState.IsValid)
             {
@@ -70,8 +68,7 @@ namespace Hospital_appointment_system.Controllers
 				{
 					await _userManager.AddToRoleAsync(user, UserRoles.User);  // Assign a default role or based on model
 				}
-				//await _seeds.RegisterPatientUserAsync(patientUser);
-				//_PatientUserRepository.Add(patientUser);
+		
 				return RedirectToAction(nameof(Index));
             }
 			TempData["Error"] = "entered information is not correct";
@@ -98,8 +95,6 @@ namespace Hospital_appointment_system.Controllers
 		//POST Edit
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-	
-
 		public async Task<IActionResult> Edit(PatientUser model)
 		{
 			if (!ModelState.IsValid)
@@ -118,9 +113,7 @@ namespace Hospital_appointment_system.Controllers
 			user.UserName = model.UserName;
 			user.Email = model.Email;
 			user.Gender=model.Gender;
-			// Optionally handle email confirmation and change tokens
-			// var token = await _userManager.GenerateChangeEmailTokenAsync(user, model.Email);
-			// var result = await _userManager.ChangeEmailAsync(user, model.Email, token);
+			
 
 			var result = await _userManager.UpdateAsync(user);
 			if (result.Succeeded)
@@ -161,33 +154,6 @@ namespace Hospital_appointment_system.Controllers
 			var result = _PatientUserRepository.Delete(user1);
 
 			return RedirectToAction("Index"); // Redirect to the user list page
-
-			//         if (patientsFromDb == null) 
-			//         {
-			//             // Add an error to the ModelState
-			//             ModelState.AddModelError(string.Empty, "User Doesn`t exists with the given email.");
-			//             return View(patientsFromDb);
-			//         }
-
-			//// Use UserManager to delete the user
-			//var result =  _PatientUserRepository.Delete(patientsFromDb);
-			//var result = await _userManager.DeleteAsync(patientsFromDb);
-			//if (result.Succeeded)
-			//{
-			//	// Optionally, you can also remove related data from other tables
-			//	// _context.SomeOtherTable.RemoveRange(_context.SomeOtherTable.Where(x => x.UserId == userId));
-			//	// await _context.SaveChangesAsync();
-
-			//	return RedirectToAction("Index"); // Redirect to the user list page
-			//}
-			//else
-			//{
-			//	// Handle errors
-			//	TempData["Error"] = "entered information is not correct";
-			//	return View("Error"); // Or return to a suitable error view
-			//}
-			return RedirectToAction("Index"); // Redirect to the user list page
-
 		}
 	}
 }
