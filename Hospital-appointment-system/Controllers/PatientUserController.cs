@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using Hospital_appointment_system.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Hospital_appointment_system.Data.Enum;
 
 namespace Hospital_appointment_system.Controllers
 {
@@ -19,7 +20,6 @@ namespace Hospital_appointment_system.Controllers
         private readonly ApplicationDbContext _context;
 		private readonly UserManager<PatientUser> _userManager;
 		private readonly RoleManager<IdentityRole> _roleManager;
-		//private readonly Seeds _seeds;
 
 		public PatientUserController( IPatientUserRepository patientUserRepository, ApplicationDbContext context
             , UserManager<PatientUser> userManager, RoleManager<IdentityRole> roleManager)
@@ -28,16 +28,29 @@ namespace Hospital_appointment_system.Controllers
             _context = context;
 			_userManager = userManager;
 			_roleManager = roleManager;
-            //_seeds = seeds;
         }
-    [Authorize(Roles = UserRoles.Admin)]
 
-        public async Task <IActionResult> Index()
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<IActionResult> Index(UserType userType = UserType.Patients)
         {
-   
-            IEnumerable<PatientUser> patients =await _PatientUserRepository.GetAll();
-            return View(patients);
+            IEnumerable<PatientUser> users;
+
+            switch (userType)
+            {
+                case UserType.Patients:
+                    users = await _userManager.GetUsersInRoleAsync(UserRoles.User);
+                    break;
+                case UserType.Admins:
+                    users = await _userManager.GetUsersInRoleAsync(UserRoles.Admin);
+                    break;
+                default:
+                    users = await _userManager.Users.ToListAsync();
+                    break;
+            }
+
+            return View(users);
         }
+
         // GET: User/Create
         [HttpGet]
 		public IActionResult Create()
@@ -45,7 +58,6 @@ namespace Hospital_appointment_system.Controllers
 			return View();
         }
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RegisterViewModel patientUser)
         {
             if (ModelState.IsValid)
