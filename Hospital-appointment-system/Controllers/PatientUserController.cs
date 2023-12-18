@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using Hospital_appointment_system.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hospital_appointment_system.Controllers
 {
@@ -29,6 +30,8 @@ namespace Hospital_appointment_system.Controllers
 			_roleManager = roleManager;
             //_seeds = seeds;
         }
+    [Authorize(Roles = UserRoles.Admin)]
+
         public async Task <IActionResult> Index()
         {
    
@@ -70,6 +73,45 @@ namespace Hospital_appointment_system.Controllers
 				}
 		
 				return RedirectToAction(nameof(Index));
+            }
+			TempData["Error"] = "entered information is not correct";
+			// If we reach here, something went wrong, re-show form
+			return View(patientUser);
+        }
+
+        [HttpGet]
+        public IActionResult CreateAdmin()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateAdmin(RegisterViewModel patientUser)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (await _PatientUserRepository.CheckUserbyEmail(patientUser.EmailAddress))
+                {
+					TempData["Error"] = "This email address is already in use";
+                    return View(patientUser);
+                }
+				var user = new PatientUser
+				{
+					UserName = patientUser.Username,
+					Email = patientUser.EmailAddress,
+					Gender = patientUser.Gender,
+					EmailConfirmed = true  // or set based on your application logic
+				};
+
+                var result = await _userManager.CreateAsync(user, patientUser.Password);
+
+                // Optionally add user to a role
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, UserRoles.Admin);  // Assign a default role or based on model
+                }
+
+                return RedirectToAction(nameof(Index));
             }
 			TempData["Error"] = "entered information is not correct";
 			// If we reach here, something went wrong, re-show form

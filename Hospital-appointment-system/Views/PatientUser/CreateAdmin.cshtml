@@ -1,13 +1,13 @@
-@* @using Hospital_appointment_system.Data.Enum; *@
+﻿@* @using Hospital_appointment_system.Data.Enum; *@
 @using Hospital_appointment_system.Data.Enum;
 @* ?@model IEnumerable<PatientUser> *@
 @model Hospital_appointment_system.ViewModels.RegisterViewModel;
 
 <div class="pt-5">
-	<form method="post" asp-controller="PatientUser" asp-action="Create">
+	<form method="post" asp-controller="PatientUser" asp-action="CreateAdmin">
 		<div calss="border p-3 mt-4">
 			<div calss="row pd-2">
-				<h2 class="text-primary">Create Patient</h2>
+				<h2 class="text-primary">Create an Admin</h2>
 				<hr />
 			</div>
 			@if (TempData["Error"] != null)
@@ -29,8 +29,9 @@
 		<div class="form-group">
 			<label asp-for="Gender">Gender</label>
 			<select asp-items="@Html.GetEnumSelectList<GenderCategory>()"
-				class="form-control form-control-lg">
-				<--Select--></select>
+					class="form-control form-control-lg">
+				<--Select-->
+			</select>
 		</div>
 		<div class="mb-3">
 			<label asp-for="Password" class="control-label"></label>
@@ -55,4 +56,8 @@
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
+}@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
 }
