@@ -4,9 +4,12 @@ using Hospital_appointment_system.Models;
 using Hospital_appointment_system.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
 using System.Configuration;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +24,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 });
 // Add ASP.NET Core Identity services
-//builder.Services.AddIdentity<PatientUser, IdentityRole>()
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddIdentity<PatientUser, IdentityRole>(options =>
 {
     // Password settings
@@ -36,7 +37,25 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
        .AddCookie();
+//for  Multilingual Support and Localisation 
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
+builder.Services.AddLocalization(option =>
+{
+    option.ResourcesPath = "Resources";
+  }  );
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("tr-Tr")
+    };
+    options.DefaultRequestCulture = new RequestCulture("tr-Tr");
+    options.SupportedUICultures = supportedCultures;
+});
 var app = builder.Build();
+app.UseRequestLocalization();
 
 var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
