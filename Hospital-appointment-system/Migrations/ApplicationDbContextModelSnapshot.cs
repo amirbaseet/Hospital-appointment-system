@@ -384,7 +384,7 @@ namespace Hospital_appointment_system.Migrations
             modelBuilder.Entity("Hospital_appointment_system.Models.Appointment", b =>
                 {
                     b.HasOne("Hospital_appointment_system.Models.Doctor", "Doctor")
-                        .WithMany("Appointments")
+                        .WithMany()
                         .HasForeignKey("DoctorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -411,19 +411,17 @@ namespace Hospital_appointment_system.Migrations
 
             modelBuilder.Entity("Hospital_appointment_system.Models.Doctor", b =>
                 {
-                    b.HasOne("Hospital_appointment_system.Models.Clinic", "Clinic")
+                    b.HasOne("Hospital_appointment_system.Models.Clinic", null)
                         .WithMany("Doctors")
                         .HasForeignKey("ClinicID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Clinic");
                 });
 
             modelBuilder.Entity("Hospital_appointment_system.Models.WorkingHour", b =>
                 {
                     b.HasOne("Hospital_appointment_system.Models.Doctor", "Doctor")
-                        .WithMany("WorkingHours")
+                        .WithMany()
                         .HasForeignKey("DoctorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -490,13 +488,6 @@ namespace Hospital_appointment_system.Migrations
             modelBuilder.Entity("Hospital_appointment_system.Models.Departments", b =>
                 {
                     b.Navigation("Clinics");
-                });
-
-            modelBuilder.Entity("Hospital_appointment_system.Models.Doctor", b =>
-                {
-                    b.Navigation("Appointments");
-
-                    b.Navigation("WorkingHours");
                 });
 #pragma warning restore 612, 618
         }

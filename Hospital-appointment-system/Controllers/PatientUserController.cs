@@ -18,14 +18,17 @@ namespace Hospital_appointment_system.Controllers
     {
         private readonly IPatientUserRepository _PatientUserRepository;
         private readonly ApplicationDbContext _context;
+
 		private readonly UserManager<PatientUser> _userManager;
 		private readonly RoleManager<IdentityRole> _roleManager;
 
-		public PatientUserController( IPatientUserRepository patientUserRepository, ApplicationDbContext context
+
+        public PatientUserController(IPatientUserRepository patientUserRepository, ApplicationDbContext context
             , UserManager<PatientUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _PatientUserRepository = patientUserRepository;
             _context = context;
+
 			_userManager = userManager;
 			_roleManager = roleManager;
         }
@@ -88,16 +91,19 @@ namespace Hospital_appointment_system.Controllers
             }
 
             return View(patients); // Make sure you have a corresponding view to display the list of patients
+
         }
 
       
         // GET: User/Create
         [HttpGet]
+
         [Authorize(Roles = UserRoles.Admin)]
 
         public IActionResult Create()
 		{
 			return View();
+
         }
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
@@ -109,30 +115,30 @@ namespace Hospital_appointment_system.Controllers
 
                 if (await _PatientUserRepository.CheckUserbyEmail(patientUser.EmailAddress))
                 {
-					TempData["Error"] = "This email address is already in use";
+                    TempData["Error"] = "This email address is already in use";
                     return View(patientUser);
                 }
-				var user = new PatientUser
-				{
-					UserName = patientUser.Username,
-					Email = patientUser.EmailAddress,
-					Gender = patientUser.Gender,
-					EmailConfirmed = true  // or set based on your application logic
-				};
+                var user = new PatientUser
+                {
+                    UserName = patientUser.Username,
+                    Email = patientUser.EmailAddress,
+                    Gender = patientUser.Gender,
+                    EmailConfirmed = true  // or set based on your application logic
+                };
 
-				var result = await _userManager.CreateAsync(user, patientUser.Password);
+                var result = await _userManager.CreateAsync(user, patientUser.Password);
 
-				// Optionally add user to a role
-				if (result.Succeeded)
-				{
-					await _userManager.AddToRoleAsync(user, UserRoles.User);  // Assign a default role or based on model
-				}
-		
-				return RedirectToAction(nameof(Index));
+                // Optionally add user to a role
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, UserRoles.User);  // Assign a default role or based on model
+                }
+
+                return RedirectToAction(nameof(Index));
             }
-			TempData["Error"] = "entered information is not correct";
-			// If we reach here, something went wrong, re-show form
-			return View(patientUser);
+            TempData["Error"] = "entered information is not correct";
+            // If we reach here, something went wrong, re-show form
+            return View(patientUser);
         }
 
         [HttpGet]
@@ -151,16 +157,16 @@ namespace Hospital_appointment_system.Controllers
 
                 if (await _PatientUserRepository.CheckUserbyEmail(patientUser.EmailAddress))
                 {
-					TempData["Error"] = "This email address is already in use";
+                    TempData["Error"] = "This email address is already in use";
                     return View(patientUser);
                 }
-				var user = new PatientUser
-				{
-					UserName = patientUser.Username,
-					Email = patientUser.EmailAddress,
-					Gender = patientUser.Gender,
-					EmailConfirmed = true  // or set based on your application logic
-				};
+                var user = new PatientUser
+                {
+                    UserName = patientUser.Username,
+                    Email = patientUser.EmailAddress,
+                    Gender = patientUser.Gender,
+                    EmailConfirmed = true  // or set based on your application logic
+                };
 
                 var result = await _userManager.CreateAsync(user, patientUser.Password);
 
@@ -172,10 +178,29 @@ namespace Hospital_appointment_system.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-			TempData["Error"] = "entered information is not correct";
-			// If we reach here, something went wrong, re-show form
-			return View(patientUser);
+            TempData["Error"] = "entered information is not correct";
+            // If we reach here, something went wrong, re-show form
+            return View(patientUser);
         }
+        //GET Edit
+        public async Task<IActionResult> Edit(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var patientUser = await _context.PatientUsers.FindAsync(id);
+            if (patientUser == null)
+            {
+                return NotFound();
+            }
+
+            // Pass the PatientUser model to the view
+            return View(patientUser);
+        }
+
+
         [Authorize(Roles = UserRoles.Admin)]
         //GET Edit
         public async Task<IActionResult> Edit(string? id)
@@ -234,10 +259,12 @@ namespace Hospital_appointment_system.Controllers
 			}
 		}
         [Authorize(Roles = UserRoles.Admin)]
+
         // GET: User/Delete
         [HttpGet]
         public async Task<IActionResult> DeleteAsync(string? id)
         {
+
 			if (id == null)
 			{
 				return NotFound();
@@ -252,13 +279,14 @@ namespace Hospital_appointment_system.Controllers
 
 		}
         [Authorize(Roles = UserRoles.Admin)]
+
         [HttpPost]
         public async Task<IActionResult> Delete(PatientUser User)
         {
-			var user1 = await _userManager.FindByIdAsync(User.Id);
-			var result = _PatientUserRepository.Delete(user1);
+            var user1 = await _userManager.FindByIdAsync(User.Id);
+            var result = _PatientUserRepository.Delete(user1);
 
-			return RedirectToAction("Index"); // Redirect to the user list page
-		}
-	}
+            return RedirectToAction("Index"); // Redirect to the user list page
+        }
+    }
 }

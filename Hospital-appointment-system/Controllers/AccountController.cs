@@ -44,12 +44,18 @@ namespace Hospital_appointment_system.Controllers
                 if(passCheck)
                 {
                     var result = await _signInManeger.PasswordSignInAsync(user, loginViewModel.Password, false, false);
-        
-                    if(result.Succeeded) 
+                    if (result.Succeeded) 
                     {
-                        return RedirectToAction("Privacy", "Home");
-                        // Redirect to the Dashboard action of the DashboardController
-                        //return RedirectToAction("Index", "Dashboard");
+                        var isAdmin = await _userManeger.IsInRoleAsync(user, UserRoles.Admin);
+
+                        if (isAdmin)
+                        {
+                            return RedirectToAction("Index", "Admin");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
                 TempData["Error"] = "Wrong credentials.Please  Try again ";
@@ -92,7 +98,6 @@ namespace Hospital_appointment_system.Controllers
                 ModelState.AddModelError("", error.Description);
             }
             return View(registerViewModel);
-            //return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         public async Task<IActionResult> Logout()
