@@ -1,0 +1,26 @@
+﻿@* @model List<Hospital_appointment_system.Models.DoctorViewModel>
+
+<h2>Doctors</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Specialization</th>
+            <th>Clinic ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var doctor in Model)
+        {
+            <tr>
+                <td>@doctor.DoctorID</td>
+                <td>@doctor.Name</td>
+                <td>@doctor.Specialization</td>
+                <td>@doctor.ClinicID</td>
+            </tr>
+        }
+    </tbody>
+</table>
+ *@

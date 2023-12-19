@@ -182,27 +182,29 @@ namespace Hospital_appointment_system.Controllers
             // If we reach here, something went wrong, re-show form
             return View(patientUser);
         }
-        //GET Edit
-        public async Task<IActionResult> Edit(string? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        ////GET Edit
+        //public async Task<IActionResult> Edit(string? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var patientUser = await _context.PatientUsers.FindAsync(id);
-            if (patientUser == null)
-            {
-                return NotFound();
-            }
+        //    var patientUser = await _context.PatientUsers.FindAsync(id);
+        //    if (patientUser == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            // Pass the PatientUser model to the view
-            return View(patientUser);
-        }
+        //    // Pass the PatientUser model to the view
+        //    return View(patientUser);
+        //}
 
 
         [Authorize(Roles = UserRoles.Admin)]
         //GET Edit
+        [HttpGet]
+
         public async Task<IActionResult> Edit(string? id)
 		{
 			if (id == null)

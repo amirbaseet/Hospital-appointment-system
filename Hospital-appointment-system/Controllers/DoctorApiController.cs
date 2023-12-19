@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Numerics;
+using System.Xml.Linq;
 
 namespace Hospital_appointment_system.Controllers
 {
@@ -22,10 +23,13 @@ namespace Hospital_appointment_system.Controllers
 
         // GET: api/DoctorApi
         [HttpGet]
-        public List<Doctor> Get() 
+        public List<Doctor> Get()
         {
-            return _context.Doctors.ToList();
+            var Doctors = _context.Doctors.ToList();
+            // normalde json formatına cevirip gondermem lazım  [ApiController] bunu otomatik yapıyor
+            return Doctors;
         }
+     
         // GET: api/DoctorApi
         [HttpGet("{id}")]
         public Doctor Get(int id) 

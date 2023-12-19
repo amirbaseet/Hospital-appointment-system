@@ -16,7 +16,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPatientUserRepository, PatientUserRepository>();
+// Add services to the container.
+builder.Services.AddControllersWithViews();
 
+// Register HttpClient
+builder.Services.AddHttpClient();
+
+// Register your DataService
+//builder.Services.AddScoped<DataService>();
+builder.Services.AddHttpClient<DataService>(); // Add this line
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -40,10 +48,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 //for  Multilingual Support and Localisation 
 builder.Services.AddControllersWithViews()
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
-builder.Services.AddLocalization(option =>
+builder.Services.AddLocalization(options =>
 {
-    option.ResourcesPath = "Resources";
-  }  );
+    options.ResourcesPath = "Resources";
+});
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     var supportedCultures = new[]

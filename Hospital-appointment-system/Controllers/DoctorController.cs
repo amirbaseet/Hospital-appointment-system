@@ -3,7 +3,9 @@ using Hospital_appointment_system.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Hospital_appointment_system.Controllers
 {
@@ -15,14 +17,18 @@ namespace Hospital_appointment_system.Controllers
 		{
 			_context = context;
 		}
-
-
-		[Authorize(Roles = UserRoles.Admin)]
+		
+		//[Authorize(Roles = UserRoles.Admin)]
 		public async Task<IActionResult> Index()
 		{
-			var Doctors = _context.Doctors.ToList();
-			return View(Doctors);
-		}
+            List<Doctor> doctors = new List<Doctor>();
+            HttpClient client = new HttpClient();
+            var response = await client.GetAsync("https://localhost:7188/api/DoctorApi");
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            doctors = JsonConvert.DeserializeObject<List<Doctor>>(jsonResponse);
+
+            return View(doctors);
+        }
 		[Authorize(Roles = UserRoles.Admin)]
 		//GET
 		public async Task<IActionResult> Create()
@@ -38,16 +44,24 @@ namespace Hospital_appointment_system.Controllers
 		[HttpPost]
 
 		[ValidateAntiForgeryToken]
-		public IActionResult Create(DoctorViewModel obj)
+		public async Task<IActionResult> CreateAsync(DoctorViewModel obj)
 		{
-			var doctor = obj.doctor;
-			if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
-			{
-				_context.Doctors.Add(obj.doctor);
-				_context.SaveChanges();
-			}
+            var doctor = obj.doctor;
+            if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
+            {
+                HttpClient client = new HttpClient();
+                var json = JsonConvert.SerializeObject(doctor);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-			return RedirectToAction("Index");
+                var response = await client.PostAsync("https://localhost:7188/api/DoctorApi", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+
+            return RedirectToAction("Index");
 		}
 
 		//GET Edit
@@ -75,16 +89,22 @@ namespace Hospital_appointment_system.Controllers
 		public async Task<IActionResult> Edit(DoctorViewModel obj)
 		{
 			var doctor = obj.doctor;
-
-
 			if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
 			{
-				_context.Doctors.Update(obj.doctor);
-				_context.SaveChanges();
-			}
+			  HttpClient client = new HttpClient();
+				var jason = JsonConvert.SerializeObject(doctor);
+				var content = new StringContent(jason,Encoding.UTF8, "application/json");
+				var response = await client.PutAsync($"https://localhost:7188/api/DoctorApi/{doctor.DoctorID}", content);
+					if (response.IsSuccessStatusCode)
+				    {
+					return RedirectToAction("Index");
+					}
+            }
 
-			return RedirectToAction("Index");
-		}
+            // Handle failure case
+            // Possibly reload the form with error messages or log the error
+            return View(obj);
+        }
 
 		//GET //GET Delete
 		public async Task<IActionResult> Delete(int? id)
@@ -110,15 +130,25 @@ namespace Hospital_appointment_system.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeletePOST(DoctorViewModel id)
 		{
-			var obj = await _context.Doctors.FindAsync(id.doctor.DoctorID);
-			if (obj == null)
+			//	var obj = await _context.Doctors.FindAsync(id.doctor.DoctorID);
+			//	if (obj == null)
+			//	{
+			//		return NotFound();
+			//	}
+			//	_context.Doctors.Remove(obj);
+			//	_context.SaveChanges();
+			var doctorId = id.doctor.DoctorID;
+			  HttpClient client = new HttpClient();
+			var response = await client.DeleteAsync($"https://localhost:7188/api/DoctorApi/{doctorId}");
+			if (response.IsSuccessStatusCode)
 			{
-				return NotFound();
-			}
-			_context.Doctors.Remove(obj);
-			_context.SaveChanges();
+                return RedirectToAction("Index");
+            }
 
-			return RedirectToAction("Index");
-		}
+
+            // Handle failure case
+            // You might want to reload the form with error messages or log the error
+            return View(id);
+        }
 	}
 }
