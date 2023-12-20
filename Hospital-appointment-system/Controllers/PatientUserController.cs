@@ -50,7 +50,7 @@ namespace Hospital_appointment_system.Controllers
 
             return View(users);
 		}
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> ListPatients()
         {
             // Retrieve all users that are not in the Admin role
@@ -94,7 +94,7 @@ namespace Hospital_appointment_system.Controllers
       
         // GET: User/Create
         [HttpGet]
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Create()
 		{
 			return View();
@@ -134,13 +134,13 @@ namespace Hospital_appointment_system.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
 
         public IActionResult CreateAdmin()
         {
             return View();
         }
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateAdmin(RegisterViewModel patientUser)
         {
@@ -174,7 +174,7 @@ namespace Hospital_appointment_system.Controllers
             // If we reach here, something went wrong, re-show form
             return View(patientUser);
         }
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
         //GET Edit
         [HttpGet]
 
@@ -240,7 +240,7 @@ namespace Hospital_appointment_system.Controllers
 				return View(model);
 			}
 		}
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
 
         // GET: User/Delete
         [HttpGet]
@@ -260,7 +260,7 @@ namespace Hospital_appointment_system.Controllers
 			return View(patientsFromDb);
 
 		}
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
 
         [HttpPost]
         public async Task<IActionResult> Delete(PatientUser User)
