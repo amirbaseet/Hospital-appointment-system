@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Hospital_appointment_system.ViewModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospital_appointment_system.Models
@@ -12,14 +13,14 @@ namespace Hospital_appointment_system.Models
         [ForeignKey("Clinic")]
         public int ClinicID { get; set; }
 
-        //// Navigation property for related department
-        //public virtual Clinic Clinic { get; set; }
+        // Navigation property for related department
+        public virtual Clinic Clinic { get; set; } = null;
 
-        //// Navigation property for working hours
-        //public virtual ICollection<WorkingHour> WorkingHours { get; set; }
+        // Navigation property for working hours
+        public virtual ICollection<WorkingHour> WorkingHours { get; set; } = null;
 
-        //// Navigation property for appointments
-        //public virtual ICollection<Appointment> Appointments { get; set; }
+        // Navigation property for appointments
+        public virtual ICollection<Appointment> Appointments { get; set; } = null;
     }
 }
 

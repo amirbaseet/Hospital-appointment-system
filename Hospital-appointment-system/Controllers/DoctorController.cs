@@ -1,5 +1,6 @@
 using Hospital_appointment_system.Data;
 using Hospital_appointment_system.Models;
+using Hospital_appointment_system.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -63,9 +64,59 @@ namespace Hospital_appointment_system.Controllers
 
             return RedirectToAction("Index");
 		}
+		[HttpGet]
+        public async Task<IActionResult> CreateWorkingHours(int doctorId) // Make sure you pass the doctorId
+        {
+            var viewModel = new WorkingHourViewModel
+            {
+                DoctorID = doctorId // Set the doctorId in the ViewModel
+            };
+            return View(viewModel);
+        }
+        [HttpPost]
+		public async Task<IActionResult> CreateWorkingHoursAsync(WorkingHourViewModel obj)
+        {
+			if (ModelState.IsValid)
+			{
+				WorkingHour workingHour = new WorkingHour
+				{
+					DoctorID = obj.DoctorID,
+					StartTime = obj.StartTime,
+					EndTime = obj.EndTime,
+					DayOfWeek = obj.DayOfWeek.ToString()
+            };
+				if (obj.DayOfWeek != null)
+				{
+					_context.WorkingHours.Add(workingHour);
+					 _context.SaveChanges();
+                    return RedirectToAction("Index");
 
-		//GET Edit
-		public async Task<IActionResult> Edit(int? id)
+                }
+            }
+            return View(obj);
+        }
+        public async Task<IActionResult> DoctorsWithWorkingHours()
+        {
+            var doctorsWithHours = _context.Doctors.Select(d => new DoctorWorkingHoursViewModel
+            {
+                DoctorID = d.DoctorID,
+                Name = d.Name,
+                Specialization = d.Specialization,
+                WorkingHours = _context.WorkingHours
+                    .Where(w => w.DoctorID == d.DoctorID)
+                    .Select(w => new DoctorWorkingHoursViewModel.WorkingHourDetail
+                    {
+                        DayOfWeek = w.DayOfWeek,
+                        StartTime = w.StartTime,
+                        EndTime = w.EndTime
+                    })
+                    .ToList()
+            }).ToList();
+
+            return View(doctorsWithHours);
+        }
+        //GET Edit
+        public async Task<IActionResult> Edit(int? id)
 		{
 			if (id == null || id == 0)
 

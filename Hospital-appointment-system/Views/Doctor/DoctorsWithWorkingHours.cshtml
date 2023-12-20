@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Hospital_appointment_system.ViewModels.DoctorWorkingHoursViewModel>
+
+@{
+    ViewData["Title"] = "Doctors and Their Working Hours";
+}
+
+<div class="container">
+    <h2>Doctors and Their Working Hours</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Specialization</th>
+                <th>Working Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var doctor in Model)
+            {
+                <tr>
+                    <td>@doctor.Name</td>
+                    <td>@doctor.Specialization</td>
+                    <td>
+                        @foreach (var hour in doctor.WorkingHours)
+                        {
+                            <div>@hour.DayOfWeek: @hour.StartTime - @hour.EndTime</div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+    <div class="container p-3 ">
+        <div class="row pt-5">
+            <div class="col-6">
+                <h2 class="text-primary">Doctors List</h2>
+            </div>
+            <div class="col-6 text-right">
+                <a asp-controller="Doctor" asp-action="Create" class="btn btn-primary">
+                    <i class="bi bi-person-add"></i> &nbsp; Create New Doctor
+                </a>
+            </div>
+            <div class="col-6 text-right">
+                <a asp-controller="Doctor" asp-action="DoctorsWithWorkingHours" class="btn btn-primary">
+                    <i class="bi bi-person-add"></i> &nbsp;List Doctor With Their Working Hours
+                </a>
+            </div>
+        </div>
+        <br />
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(modil=>modil.Name)</th>
+                    <th>@Html.DisplayNameFor(modil=>modil.Specialization)</th>
+                    <th>@Html.DisplayNameFor(modil=>modil.WorkingHours)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td width="50%">
+                            @obj.Name
+
+                        </td>
+                        <td width="30%">
+                            @obj.Specialization
+                        </td> 
+                        <td width="30%">
+                            @foreach (var hour in obj.WorkingHours)
+                            {
+                                <div>@hour.DayOfWeek: @hour.StartTime - @hour.EndTime</div>
+                            }
+                        </td>
+                      
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+
+    <a asp-controller="Doctor" asp-action="Index" asp-route-param="value" class="btn btn-primary">
+        Go back
+    </a>
+</div>
