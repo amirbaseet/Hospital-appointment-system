@@ -2,23 +2,30 @@
 @{
     ViewData["Title"] = "Doctor Dashboard";
 }
-<div class="container p-3 ">
-    <div class="row pt-5">
-        <div class="col-6">
-            <h2 class="text-primary">Doctors List</h2>
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-md-8">
+            <h2 class="text-primary">Doctor`s List</h2>
         </div>
-        <div class="col-6 text-right">
-            <a asp-controller="Doctor" asp-action="Create" class="btn btn-primary">
-                <i class="bi bi-person-add"></i> &nbsp; Create New Doctor
-            </a>
-        </div> 
-        <div class="col-6 text-right">
-            <a asp-controller="Doctor" asp-action="DoctorsWithWorkingHours" class="btn btn-primary">
-                <i class="bi bi-person-add"></i> &nbsp;List Doctor With Their Working Hours
-            </a>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Doctor" asp-action="DoctorsWithWorkingHours" class="btn btn-primary">
+                            <i class="bi bi-person-add"></i> List Doctors With Working Hours
+                        </a>
+                        <a asp-controller="Doctor" asp-action="Create" class="btn btn-primary">
+                            <i class="bi bi-person-add"></i> Create New Doctor
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <br />
+
+        <!-- Rest of your code... -->
+    </div>
+        <br />
 <table class="table table-bordered table-striped" style="width:100%">
     <thead>
         <tr>
@@ -33,21 +40,16 @@
             <tr>
                 <td width="50%">
                     @obj.Name
-
                 </td>
                 <td width="30%"> 
                     @obj.Specialization
                 </td>
                 <td>
-                    <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@obj.DoctorID"
-                            class="btn btn-warning mx-2"> <i class="bi bi-pencil-square"></i>Edit</a>
-                            <a asp-controller="Doctor" asp-action="Delete" asp-route-id="@obj.DoctorID"
-                               class="btn btn-danger mx-2"> <i class="bi bi-trash"></i>Delete</a>
-                            <a asp-controller="Doctor" asp-action="CreateWorkingHours" asp-route-doctorId="@obj.DoctorID"
-                               class="btn btn-success mx-2"> <i class="bi bi-clock-history"></i> Add Working Hours</a>
-
-                    </div>
+                   <div class="btn-group" role="group">
+                        <a asp-controller="Doctor" asp-action="Edit" asp-route-id="@obj.DoctorID" class="btn btn-warning"><i class="bi bi-pencil-square"></i>Edit</a>
+                        <a asp-controller="Doctor" asp-action="Delete" asp-route-id="@obj.DoctorID" class="btn btn-danger"><i class="bi bi-trash"></i>Delete</a>
+                        <a asp-controller="Doctor" asp-action="CreateWorkingHours" asp-route-doctorId="@obj.DoctorID" class="btn btn-success"><i class="bi bi-clock-history"></i>Add Working Hours</a>
+                        </div>
                 </td>
             </tr>
         }
@@ -55,8 +57,3 @@
 
 </table>
 </div>
-
-
-
-                                
-                            

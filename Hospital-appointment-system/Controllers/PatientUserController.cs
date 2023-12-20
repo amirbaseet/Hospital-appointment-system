@@ -18,11 +18,8 @@ namespace Hospital_appointment_system.Controllers
     {
         private readonly IPatientUserRepository _PatientUserRepository;
         private readonly ApplicationDbContext _context;
-
 		private readonly UserManager<PatientUser> _userManager;
 		private readonly RoleManager<IdentityRole> _roleManager;
-
-
         public PatientUserController(IPatientUserRepository patientUserRepository, ApplicationDbContext context
             , UserManager<PatientUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -33,7 +30,7 @@ namespace Hospital_appointment_system.Controllers
 			_roleManager = roleManager;
         }
 
-        [Authorize(Roles = UserRoles.User)]
+        //[Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> Index(UserType userType = UserType.Patients)
         {
             IEnumerable<PatientUser> users;
@@ -53,7 +50,7 @@ namespace Hospital_appointment_system.Controllers
 
             return View(users);
 		}
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> ListPatients()
         {
             // Retrieve all users that are not in the Admin role
@@ -97,22 +94,17 @@ namespace Hospital_appointment_system.Controllers
       
         // GET: User/Create
         [HttpGet]
-
-        [Authorize(Roles = UserRoles.Admin)]
-
+        //[Authorize(Roles = UserRoles.Admin)]
         public IActionResult Create()
 		{
 			return View();
-
         }
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
-
         public async Task<IActionResult> Create(RegisterViewModel patientUser)
         {
             if (ModelState.IsValid)
             {
-
                 if (await _PatientUserRepository.CheckUserbyEmail(patientUser.EmailAddress))
                 {
                     TempData["Error"] = "This email address is already in use";
@@ -134,7 +126,7 @@ namespace Hospital_appointment_system.Controllers
                     await _userManager.AddToRoleAsync(user, UserRoles.User);  // Assign a default role or based on model
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ListPatients));
             }
             TempData["Error"] = "entered information is not correct";
             // If we reach here, something went wrong, re-show form
@@ -142,13 +134,13 @@ namespace Hospital_appointment_system.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
 
         public IActionResult CreateAdmin()
         {
             return View();
         }
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateAdmin(RegisterViewModel patientUser)
         {
@@ -176,32 +168,13 @@ namespace Hospital_appointment_system.Controllers
                     await _userManager.AddToRoleAsync(user, UserRoles.Admin);  // Assign a default role or based on model
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ListAdmin));
             }
             TempData["Error"] = "entered information is not correct";
             // If we reach here, something went wrong, re-show form
             return View(patientUser);
         }
-        ////GET Edit
-        //public async Task<IActionResult> Edit(string? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var patientUser = await _context.PatientUsers.FindAsync(id);
-        //    if (patientUser == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    // Pass the PatientUser model to the view
-        //    return View(patientUser);
-        //}
-
-
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         //GET Edit
         [HttpGet]
 
@@ -222,7 +195,7 @@ namespace Hospital_appointment_system.Controllers
 			return View(patientUser);
 		}
 		//POST Edit
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(PatientUser model)
@@ -238,18 +211,25 @@ namespace Hospital_appointment_system.Controllers
 				// Handle the case where the user isn't found
 				return NotFound();
 			}
-
-			// Update the user's properties
-			user.UserName = model.UserName;
+            //getting the user role
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            // Update the user's properties
+            user.UserName = model.UserName;
 			user.Email = model.Email;
 			user.Gender=model.Gender;
-			
 
-			var result = await _userManager.UpdateAsync(user);
+            var result = await _userManager.UpdateAsync(user);
 			if (result.Succeeded)
 			{
-				return RedirectToAction("Index");
-			}
+
+                //checking the user`s role to redirect to its own list page
+                if (isAdmin)
+                {
+                    return RedirectToAction(nameof(ListAdmin));
+                }
+                else
+                    return RedirectToAction(nameof(ListPatients));
+            }
 			else
 			{
 				// Handle errors
@@ -260,7 +240,7 @@ namespace Hospital_appointment_system.Controllers
 				return View(model);
 			}
 		}
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
 
         // GET: User/Delete
         [HttpGet]
@@ -280,15 +260,22 @@ namespace Hospital_appointment_system.Controllers
 			return View(patientsFromDb);
 
 		}
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
 
         [HttpPost]
         public async Task<IActionResult> Delete(PatientUser User)
         {
+            var isAdmin = await _userManager.IsInRoleAsync(User, "Admin");
+            
             var user1 = await _userManager.FindByIdAsync(User.Id);
             var result = _PatientUserRepository.Delete(user1);
-
-            return RedirectToAction("Index"); // Redirect to the user list page
+            //checking the user`s role to redirect to its own list page
+            if (isAdmin)
+            {
+                return RedirectToAction(nameof(ListAdmin));
+            }
+            else
+                return RedirectToAction(nameof(ListPatients));
         }
     }
 }
