@@ -4,7 +4,7 @@
 		<input asp-for="doctor.DoctorID" hidden />
 	<div calss="border p-3 mt-4">
 		<div calss="row pd-2">
-			<h2 class="text-primary">Delete Doctor</h2>
+				<h2 class="text-primary">@ViewData["DeleteDoctor"]</h2>
 			<hr />
 
 		</div>
@@ -27,9 +27,9 @@
 			}
 		</select>
 	</div>
-	<button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+		<button type="submit" class="btn btn-danger" style="width:150px">@ViewData["Delete"]</button>
 	<a asp-controller="Doctor" asp-action="Index" class="btn btn-secondary" style="width:150px">
-		Back to List
+			@ViewData["BacktoList"]
 	</a>
 </form>
 </div>

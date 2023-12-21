@@ -11,23 +11,25 @@ using Microsoft.AspNetCore.Identity;
 using Hospital_appointment_system.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Hospital_appointment_system.Data.Enum;
+using Microsoft.Extensions.Localization;
 
 namespace Hospital_appointment_system.Controllers
 {
     public class PatientUserController : Controller
     {
-        private readonly IPatientUserRepository _PatientUserRepository;
+        //private readonly IPatientUserRepository _PatientUserRepository;
         private readonly ApplicationDbContext _context;
-		private readonly UserManager<PatientUser> _userManager;
-		private readonly RoleManager<IdentityRole> _roleManager;
-        public PatientUserController(IPatientUserRepository patientUserRepository, ApplicationDbContext context
-            , UserManager<PatientUser> userManager, RoleManager<IdentityRole> roleManager)
-        {
-            _PatientUserRepository = patientUserRepository;
-            _context = context;
+        private readonly UserManager<PatientUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IStringLocalizer<PatientUserController> _localizer;
 
-			_userManager = userManager;
-			_roleManager = roleManager;
+        public PatientUserController(/*IPatientUserRepository patientUserRepository,*/ ApplicationDbContext context, UserManager<PatientUser> userManager, RoleManager<IdentityRole> roleManager, IStringLocalizer<PatientUserController> localizer)
+        {
+            //_PatientUserRepository = patientUserRepository;
+            _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _localizer = localizer; // Assign the passed localizer to the _localizer field
         }
 
         //[Authorize(Roles = UserRoles.User)]
@@ -49,10 +51,14 @@ namespace Hospital_appointment_system.Controllers
             }
 
             return View(users);
-		}
+        }
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> ListPatients()
         {
+            ViewData["PatientsList"] = _localizer["PatientsList"];
+            ViewData["AddaPatient"] = _localizer["AddaPatient"];
+            ViewData["Edit"] = _localizer["Edit"];
+            ViewData["Delete"] = _localizer["Delete"];
             // Retrieve all users that are not in the Admin role
             var users = await _userManager.Users.ToListAsync();
             var patients = new List<PatientUser>();
@@ -73,6 +79,10 @@ namespace Hospital_appointment_system.Controllers
 
         public async Task<IActionResult> ListAdmin()
         {
+            ViewData["AdminsList"] = _localizer["AdminsList"];
+            ViewData["AddanAdmin"] = _localizer["AddanAdmin"];
+            ViewData["Edit"] = _localizer["Edit"];
+            ViewData["Delete"] = _localizer["Delete"];
             // Retrieve all users that are not in the Admin role
             var users = await _userManager.Users.ToListAsync();
             var patients = new List<PatientUser>();
@@ -91,13 +101,16 @@ namespace Hospital_appointment_system.Controllers
 
         }
 
-      
+
         // GET: User/Create
         [HttpGet]
         [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Create()
-		{
-			return View();
+        {
+            @ViewData["CreatePatient"] = _localizer["CreatePatient"];
+            @ViewData["Create"] = _localizer["Create"];
+            @ViewData["BacktoList"] = _localizer["BacktoList"];
+            return View();
         }
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
@@ -105,7 +118,7 @@ namespace Hospital_appointment_system.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _PatientUserRepository.CheckUserbyEmail(patientUser.EmailAddress))
+                if (await _context.PatientUsers.AnyAsync(u => u.Email.Equals(patientUser.EmailAddress)))
                 {
                     TempData["Error"] = "This email address is already in use";
                     return View(patientUser);
@@ -138,16 +151,19 @@ namespace Hospital_appointment_system.Controllers
 
         public IActionResult CreateAdmin()
         {
+            @ViewData["Create"] = _localizer["Create"];
+            @ViewData["BacktoList"] = _localizer["BacktoList"];
             return View();
         }
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> CreateAdmin(RegisterViewModel patientUser)
         {
+         
             if (ModelState.IsValid)
             {
 
-                if (await _PatientUserRepository.CheckUserbyEmail(patientUser.EmailAddress))
+                if (await _context.PatientUsers.AnyAsync(u => u.Email.Equals(patientUser.EmailAddress)))
                 {
                     TempData["Error"] = "This email address is already in use";
                     return View(patientUser);
@@ -179,48 +195,51 @@ namespace Hospital_appointment_system.Controllers
         [HttpGet]
 
         public async Task<IActionResult> Edit(string? id)
-		{
-			if (id == null)
-			{
-				return NotFound();
-			}
+        {
+            @ViewData["EditPatient"] = _localizer["EditPatient"];
+            @ViewData["Update"] = _localizer["Update"];
+            @ViewData["BacktoList"] = _localizer["BacktoList"];
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-			var patientUser = await _context.PatientUsers.FindAsync(id);
-			if (patientUser == null)
-			{
-				return NotFound();
-			}
+            var patientUser = await _context.PatientUsers.FindAsync(id);
+            if (patientUser == null)
+            {
+                return NotFound();
+            }
 
-			// Pass the PatientUser model to the view
-			return View(patientUser);
-		}
-		//POST Edit
+            // Pass the PatientUser model to the view
+            return View(patientUser);
+        }
+        //POST Edit
         //[Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(PatientUser model)
-		{
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(PatientUser model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-			var user = await _userManager.FindByIdAsync(model.Id);
-			if (user == null)
-			{
-				// Handle the case where the user isn't found
-				return NotFound();
-			}
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                // Handle the case where the user isn't found
+                return NotFound();
+            }
             //getting the user role
             var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
             // Update the user's properties
             user.UserName = model.UserName;
-			user.Email = model.Email;
-			user.Gender=model.Gender;
+            user.Email = model.Email;
+            user.Gender = model.Gender;
 
             var result = await _userManager.UpdateAsync(user);
-			if (result.Succeeded)
-			{
+            if (result.Succeeded)
+            {
 
                 //checking the user`s role to redirect to its own list page
                 if (isAdmin)
@@ -230,45 +249,49 @@ namespace Hospital_appointment_system.Controllers
                 else
                     return RedirectToAction(nameof(ListPatients));
             }
-			else
-			{
-				// Handle errors
-				foreach (var error in result.Errors)
-				{
-					ModelState.AddModelError("", error.Description);
-				}
-				return View(model);
-			}
-		}
+            else
+            {
+                // Handle errors
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(model);
+            }
+        }
         [Authorize(Roles = UserRoles.Admin)]
 
         // GET: User/Delete
         [HttpGet]
         public async Task<IActionResult> DeleteAsync(string? id)
         {
+            @ViewData["BacktoList"] = _localizer["BacktoList"];
+            @ViewData["DeletePatient"] = _localizer["DeletePatient"];
 
-			if (id == null)
-			{
-				return NotFound();
-			}
-			var patientsFromDb = await _context.PatientUsers.FindAsync(id);
-			if (patientsFromDb == null)
-			{
-				return NotFound();
-			}
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var patientsFromDb = await _context.PatientUsers.FindAsync(id);
+            if (patientsFromDb == null)
+            {
+                return NotFound();
+            }
 
-			return View(patientsFromDb);
+            return View(patientsFromDb);
 
-		}
+        }
         [Authorize(Roles = UserRoles.Admin)]
 
         [HttpPost]
         public async Task<IActionResult> Delete(PatientUser User)
         {
+           
             var isAdmin = await _userManager.IsInRoleAsync(User, "Admin");
-            
+
             var user1 = await _userManager.FindByIdAsync(User.Id);
-            var result = _PatientUserRepository.Delete(user1);
+            _context.Remove(user1);
+            var result = _context.SaveChanges();
             //checking the user`s role to redirect to its own list page
             if (isAdmin)
             {
@@ -279,3 +302,4 @@ namespace Hospital_appointment_system.Controllers
         }
     }
 }
+

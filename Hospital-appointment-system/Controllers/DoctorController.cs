@@ -4,6 +4,7 @@ using Hospital_appointment_system.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -11,17 +12,26 @@ using System.Text;
 namespace Hospital_appointment_system.Controllers
 {
 	public class DoctorController : Controller
-	{
+    {
 		private readonly ApplicationDbContext _context;
+		private readonly IStringLocalizer<DoctorController> _localizer;
 
-		public DoctorController(ApplicationDbContext context)
+		public DoctorController(ApplicationDbContext context, IStringLocalizer<DoctorController> localizer)
 		{
 			_context = context;
+			_localizer = localizer;
+
 		}
-		
+
 		//[Authorize(Roles = UserRoles.Admin)]
 		public async Task<IActionResult> Index()
 		{
+            ViewData["Doctor`sList"]= _localizer["Doctor`sList"];
+            ViewData["ListDoctorsWithWorkingHours"]=_localizer["ListDoctorsWithWorkingHours"];
+			ViewData["CreateNewDoctor"] =_localizer["CreateNewDoctor"];
+			ViewData["Edit"]			 =_localizer["Edit"];
+			ViewData["Delete"]			 =_localizer["Delete"];
+			ViewData["AddWorkingHours"]	 = _localizer["AddWorkingHours"];
             List<Doctor> doctors = new List<Doctor>();
             HttpClient client = new HttpClient();
             var response = await client.GetAsync("https://localhost:7188/api/DoctorApi");
@@ -34,7 +44,9 @@ namespace Hospital_appointment_system.Controllers
 		//GET
 		public async Task<IActionResult> Create()
 		{
-
+			ViewData["AddDoctor"] = _localizer["AddDoctor"];
+			@ViewData["Create"] =    _localizer["Create"];
+			@ViewData["BacktoList"] = _localizer["BacktoList"];
 			var Create = new DoctorViewModel();
 			Create.clinicList = await _context.Clinic.ToListAsync();
 			return View(Create);
@@ -67,7 +79,11 @@ namespace Hospital_appointment_system.Controllers
 		[HttpGet]
         public async Task<IActionResult> CreateWorkingHours(int doctorId) // Make sure you pass the doctorId
         {
-            var viewModel = new WorkingHourViewModel
+			@ViewData["Addinghours"] = _localizer["Addinghours"];
+			@ViewData["StartTime"]= _localizer["StartTime"];
+			@ViewData["EndTime"]=_localizer["EndTime"];
+			@ViewData["Add"] = _localizer["Add"];
+			var viewModel = new WorkingHourViewModel
             {
                 DoctorID = doctorId // Set the doctorId in the ViewModel
             };
@@ -97,6 +113,9 @@ namespace Hospital_appointment_system.Controllers
         }
         public async Task<IActionResult> DoctorsWithWorkingHours()
         {
+            @ViewData["ListDoctors"]= _localizer["ListDoctors"];
+            @ViewData["Doctor`sWorkingHours"] = _localizer["Doctor`sWorkingHours"];
+
             var doctorsWithHours = _context.Doctors.Select(d => new DoctorWorkingHoursViewModel
             {
                 DoctorID = d.DoctorID,
@@ -118,6 +137,11 @@ namespace Hospital_appointment_system.Controllers
         //GET Edit
         public async Task<IActionResult> Edit(int? id)
 		{
+			ViewData["EditDoctor"] = _localizer["EditDoctor"];
+			ViewData["Update"] = _localizer["Update"];
+			ViewData["BacktoList"] = _localizer["BacktoList"];
+
+
 			if (id == null || id == 0)
 
 			{
@@ -162,6 +186,10 @@ namespace Hospital_appointment_system.Controllers
 
 
 		{
+			@ViewData["DeleteDoctor"]= _localizer["DeleteDoctor"];
+			@ViewData["Delete"]= _localizer["Delete"];
+			@ViewData["BacktoList"] = _localizer["BacktoList"];
+
 			if (id == null || id == 0)
 			{
 				return NotFound();

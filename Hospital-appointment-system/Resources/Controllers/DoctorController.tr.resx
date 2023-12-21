@@ -117,10 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Home2" xml:space="preserve">
-    <value>Bootstrap ile web siteleri yapan yetenekli tasarımcılardan oluşan bir ekibiz</value>
+  <data name="Add" xml:space="preserve">
+    <value>ekle</value>
   </data>
-  <data name="WelcomeMessage" xml:space="preserve">
-    <value>Hoş geldin knki</value>
+  <data name="AddDoctor" xml:space="preserve">
+    <value>Doktor Ekle</value>
+  </data>
+  <data name="Addinghours" xml:space="preserve">
+    <value>Doktor'a çalışma saatleri ekleme</value>
+  </data>
+  <data name="AddWorkingHours" xml:space="preserve">
+    <value>Çalışma Saatleri Ekle</value>
+  </data>
+  <data name="BacktoList" xml:space="preserve">
+    <value>Liste dön</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>oluştur</value>
+  </data>
+  <data name="CreateNewDoctor" xml:space="preserve">
+    <value>Yeni Doktor Oluştur</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="DeleteDoctor" xml:space="preserve">
+    <value>Doktoru Sil</value>
+  </data>
+  <data name="Doctor`sList" xml:space="preserve">
+    <value>Doktor Listesi</value>
+  </data>
+  <data name="Doctor`sWorkingHours" xml:space="preserve">
+    <value>Doktorun Çalışma Saatleri</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="EditDoctor" xml:space="preserve">
+    <value>Doktoru Düzenle</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>Bitiş zamanı</value>
+  </data>
+  <data name="ListDoctors" xml:space="preserve">
+    <value>Doktorları Listele</value>
+  </data>
+  <data name="ListDoctorsWithWorkingHours" xml:space="preserve">
+    <value>Çalışma Saatleri Olan Doktorları Listele</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Başlangıç ​​saati</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Güncelle</value>
   </data>
 </root>

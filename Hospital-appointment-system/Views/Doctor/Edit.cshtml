@@ -5,7 +5,7 @@
 	<input asp-for="doctor.DoctorID" hidden />
 	<div calss="border p-3 mt-4">
 		<div calss="row pd-2">
-			<h2 class="text-primary">Edit Doctor</h2>
+			<h2 class="text-primary">@ViewData["EditDoctor"]</h2>
 			<hr />
 
 		</div>
@@ -28,9 +28,9 @@
 			}
 		</select>
 	</div>
-	<button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+	<button type="submit" class="btn btn-primary" style="width:150px">@ViewData["Update"]</button>
 	<a asp-controller="Doctor" asp-action="Index" class="btn btn-secondary" style="width:150px">
-		Back to List
+		@ViewData["BacktoList"]
 	</a>
 </form>
 

@@ -117,10 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Home2" xml:space="preserve">
-    <value>Bootstrap ile web siteleri yapan yetenekli tasarımcılardan oluşan bir ekibiz</value>
+  <data name="Add" xml:space="preserve">
+    <value>add</value>
   </data>
-  <data name="WelcomeMessage" xml:space="preserve">
-    <value>Hoş geldin knki</value>
+  <data name="AddanAdmin" xml:space="preserve">
+    <value>Add an Admin</value>
+  </data>
+  <data name="AddaPatient" xml:space="preserve">
+    <value>Add a Patient</value>
+  </data>
+  <data name="AdminsList" xml:space="preserve">
+    <value>Admins List</value>
+  </data>
+  <data name="BacktoList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateAdmin" xml:space="preserve">
+    <value>Create Admin</value>
+  </data>
+  <data name="CreatePatient" xml:space="preserve">
+    <value>Create Patient</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeletePatient" xml:space="preserve">
+    <value>Delete User</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditPatient" xml:space="preserve">
+    <value>Edit User</value>
+  </data>
+  <data name="PatientsList" xml:space="preserve">
+    <value>Patients List</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
   </data>
 </root>

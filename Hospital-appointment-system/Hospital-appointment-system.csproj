@@ -80,7 +80,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Views\Home\" />
+    <EmbeddedResource Update="Resources\Controllers\DoctorController.en.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://api.airplane.dev/v0/schemas/task.json" /></VisualStudio></ProjectExtensions>

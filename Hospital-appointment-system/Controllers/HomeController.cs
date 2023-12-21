@@ -44,13 +44,13 @@ namespace Hospital_appointment_system.Controllers
         public IActionResult Index()
         {
             // Use _localizer to get localized strings
-            var localizedString = _localizer["WelcomeMessage"].Value; // "HelloWorld" is a key in your .resx file
             ViewData["Greeting"] = _localizer["WelcomeMessage"];
+            ViewData["Home2"] = _localizer["Home2"];
             // Add more localized strings as needed
             return View();
         }
 
-      
+
         public IActionResult Privacy()
         {
             return View();

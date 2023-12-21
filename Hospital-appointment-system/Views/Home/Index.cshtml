@@ -11,10 +11,11 @@
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
         <div class="container mt-5" style="padding-top:100px">
-            @localizer["WelcomeMessage"]
             @ViewData["Greeting"]
             @* <h1>Welcome to Medilab</h1> *@
-            <h2>We are team of talented designers making websites with Bootstrap</h2>
+            <h2>
+                @ViewData["Home2"]
+            </h2>
         </div>
     </section><!-- End Hero -->
     

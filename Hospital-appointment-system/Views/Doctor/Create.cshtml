@@ -4,7 +4,7 @@
 <form method="post" asp-action="Create" class="pt-5">
 	<div calss="border p-3 mt-4">
 		<div calss="row pd-2">
-			<h2 class="text-primary">Create Doctor</h2>
+			<h2 class="text-primary"> @ViewData["AddDoctor"]</h2>
 			<hr />
 
 		</div>
@@ -27,9 +27,9 @@
 			}
 		</select>
 	</div>
-	<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+	<button type="submit" class="btn btn-primary" style="width:150px">@ViewData["Create"]</button>
 
 	<a asp-controller="Doctor" asp-action="Index" class="btn btn-secondary" style="width:150px">
-		Back to List
+		@ViewData["BacktoList"]
 	</a>
 </form>

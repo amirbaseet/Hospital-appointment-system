@@ -117,10 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Home2" xml:space="preserve">
-    <value>Bootstrap ile web siteleri yapan yetenekli tasarımcılardan oluşan bir ekibiz</value>
+  <data name="Add" xml:space="preserve">
+    <value>add</value>
   </data>
-  <data name="WelcomeMessage" xml:space="preserve">
-    <value>Hoş geldin knki</value>
+  <data name="AddDoctor" xml:space="preserve">
+    <value>Add Doctor</value>
+  </data>
+  <data name="Addinghours" xml:space="preserve">
+    <value>Adding working hours to Doctor</value>
+  </data>
+  <data name="AddWorkingHours" xml:space="preserve">
+    <value>Add Working Hours</value>
+  </data>
+  <data name="BacktoList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateNewDoctor" xml:space="preserve">
+    <value>Create New Doctor</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteDoctor" xml:space="preserve">
+    <value>Delete Doctor</value>
+  </data>
+  <data name="Doctor`sList" xml:space="preserve">
+    <value>Doctor`s List</value>
+  </data>
+  <data name="Doctor`sWorkingHours" xml:space="preserve">
+    <value>Doctor`s Working Hours</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditDoctor" xml:space="preserve">
+    <value>Edit Doctor</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>End Time</value>
+  </data>
+  <data name="ListDoctors" xml:space="preserve">
+    <value>List Doctors</value>
+  </data>
+  <data name="ListDoctorsWithWorkingHours" xml:space="preserve">
+    <value>List Doctors With Working Hours</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
   </data>
 </root>
