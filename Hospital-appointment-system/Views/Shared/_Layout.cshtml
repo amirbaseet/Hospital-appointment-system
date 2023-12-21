@@ -57,7 +57,7 @@
             <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
             <nav id="navbar" class="navbar order-last order-lg-0">
-                
+              
                 <ul>
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -96,6 +96,14 @@
                     }
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
+                <ul>
+              
+                    <li class="nav-item">
+                        @await Html.PartialAsync("_CulturePartial")
+                    </li>
+                </ul>
+
+
             </nav><!-- .navbar -->
         </div>
     </header><!-- End Header -->
@@ -140,10 +148,10 @@
     <!-- Template Main JS File -->
     <script src="~/assets/js/main.js"></script>
 
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

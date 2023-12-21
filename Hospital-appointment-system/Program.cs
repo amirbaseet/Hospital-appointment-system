@@ -10,7 +10,11 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using System.Configuration;
 using System.Globalization;
-
+using Microsoft.Extensions.Options;
+using System.Reflection;
+using Microsoft.Extensions.Localization;
+[assembly: ResourceLocation("Resources")]
+[assembly: RootNamespace("Hospital_appointment_system")]
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -45,33 +49,32 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
        .AddCookie();
-//for  Multilingual Support and Localisation 
-builder.Services.AddControllersWithViews()
-    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
-builder.Services.AddLocalization(options =>
-{
-    options.ResourcesPath = "Resources";
-});
 
+
+//for  Multilingual Support and Localisation 
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization();
+
+// Configure supported cultures
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    var supportedCultures = new[]
-    {
-        new CultureInfo("en-US"),
-        new CultureInfo("tr-Tr")
-    };
-    options.DefaultRequestCulture = new RequestCulture("tr-Tr");
-    options.SupportedUICultures = supportedCultures;
+    var supportedCultures = new[] { "en-US", "tr-TR" };
+    options.SetDefaultCulture(supportedCultures[0])
+           .AddSupportedCultures(supportedCultures)
+           .AddSupportedUICultures(supportedCultures);
 });
+
 var app = builder.Build();
-app.UseRequestLocalization();
 
 var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 
 var userManager = services.GetRequiredService<UserManager<PatientUser>>();
-    Seeds.SeedData(app);
-    await Seeds.SeedUsersAndRolesAsync(app);
+Seeds.SeedData(app);
+await Seeds.SeedUsersAndRolesAsync(app);
 
 
 // Configure the HTTP request pipeline.
@@ -86,19 +89,26 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+// Use localization
+app.UseRequestLocalization();
+// Configure the Localization middleware
+
+app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
+
 
 app.UseAuthentication(); // This needs to come before UseAuthorization
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-        name: "dashboard",
-        pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
 });
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 
 app.Run();

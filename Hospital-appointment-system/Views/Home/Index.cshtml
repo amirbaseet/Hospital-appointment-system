@@ -2,7 +2,7 @@
     ViewData["Title"] = "Privacy Policy";
     Layout = "_Layout";
 }
-
+@inject IViewLocalizer Localizer
 
 <html lang="en">
 
@@ -11,7 +11,9 @@
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
         <div class="container mt-5" style="padding-top:100px">
-            <h1>Welcome to Medilab</h1>
+            @localizer["WelcomeMessage"]
+            @ViewData["Greeting"]
+            @* <h1>Welcome to Medilab</h1> *@
             <h2>We are team of talented designers making websites with Bootstrap</h2>
         </div>
     </section><!-- End Hero -->

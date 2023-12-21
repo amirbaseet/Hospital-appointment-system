@@ -5,11 +5,11 @@ namespace Hospital_appointment_system.Controllers
 {
     public class LanguageController : Controller
     {
-        public IActionResult Change(string lang, string returnUrl = "/")
+        public IActionResult Change(string language, string returnUrl)
         {
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang)),
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(language)),
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
 
