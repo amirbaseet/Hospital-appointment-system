@@ -48,9 +48,9 @@
                 </td>
                 <td>
                     <div class="btn-group" role="group">
-                        <a asp-controller="PatientUser" asp-action="Edit" asp-route-id="@item.Id"
+                        <a asp-controller="PatientUser" asp-action="EditAdmin" asp-route-id="@item.Id"
                            class="btn btn-warning"> <i class="bi bi-pencil-square"></i>@ViewData["Edit"]</a>
-                        <a asp-controller="PatientUser" asp-action="Delete" asp-route-id="@item.Id"
+                        <a asp-controller="PatientUser" asp-action="DeleteAdmin" asp-route-id="@item.Id"
                            class="btn btn-danger"> <i class="bi bi-trash"></i>@ViewData["Delete"]</a>
 
                     </div>
