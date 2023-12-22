@@ -23,7 +23,7 @@ namespace Hospital_appointment_system.Controllers
 
 		}
 
-		//[Authorize(Roles = UserRoles.Admin)]
+		[Authorize(Roles = UserRoles.Admin)]
 		public async Task<IActionResult> Index()
 		{
             ViewData["Doctor`sList"]= _localizer["Doctor`sList"];
@@ -34,7 +34,7 @@ namespace Hospital_appointment_system.Controllers
 			ViewData["AddWorkingHours"]	 = _localizer["AddWorkingHours"];
             List<Doctor> doctors = new List<Doctor>();
             HttpClient client = new HttpClient();
-            var response = await client.GetAsync("https://localhost:7188/api/DoctorApi");
+            var response = await client.GetAsync("https://localhost:44327/api/DoctorApi");
             var jsonResponse = await response.Content.ReadAsStringAsync();
             doctors = JsonConvert.DeserializeObject<List<Doctor>>(jsonResponse);
 
@@ -52,12 +52,11 @@ namespace Hospital_appointment_system.Controllers
 			return View(Create);
 		}
 
-		[Authorize(Roles = UserRoles.Admin)]
 		//POST
 		[HttpPost]
-
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> CreateAsync(DoctorViewModel obj)
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<IActionResult> CreateAsync(DoctorViewModel obj)
 		{
             var doctor = obj.doctor;
             if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
@@ -66,7 +65,7 @@ namespace Hospital_appointment_system.Controllers
                 var json = JsonConvert.SerializeObject(doctor);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("https://localhost:7188/api/DoctorApi", content);
+                var response = await client.PostAsync("https://localhost:44327/api/DoctorApi", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -77,6 +76,7 @@ namespace Hospital_appointment_system.Controllers
             return RedirectToAction("Index");
 		}
 		[HttpGet]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> CreateWorkingHours(int doctorId) // Make sure you pass the doctorId
         {
 			@ViewData["Addinghours"] = _localizer["Addinghours"];
@@ -90,7 +90,8 @@ namespace Hospital_appointment_system.Controllers
             return View(viewModel);
         }
         [HttpPost]
-		public async Task<IActionResult> CreateWorkingHoursAsync(WorkingHourViewModel obj)
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<IActionResult> CreateWorkingHoursAsync(WorkingHourViewModel obj)
         {
 			if (ModelState.IsValid)
 			{
@@ -111,6 +112,7 @@ namespace Hospital_appointment_system.Controllers
             }
             return View(obj);
         }
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> DoctorsWithWorkingHours()
         {
             @ViewData["ListDoctors"]= _localizer["ListDoctors"];
@@ -135,6 +137,7 @@ namespace Hospital_appointment_system.Controllers
             return View(doctorsWithHours);
         }
         //GET Edit
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(int? id)
 		{
 			ViewData["EditDoctor"] = _localizer["EditDoctor"];
@@ -160,8 +163,8 @@ namespace Hospital_appointment_system.Controllers
 		//POST Edit
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-
-		public async Task<IActionResult> Edit(DoctorViewModel obj)
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<IActionResult> Edit(DoctorViewModel obj)
 		{
 			var doctor = obj.doctor;
 			if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
@@ -169,7 +172,7 @@ namespace Hospital_appointment_system.Controllers
 			  HttpClient client = new HttpClient();
 				var jason = JsonConvert.SerializeObject(doctor);
 				var content = new StringContent(jason,Encoding.UTF8, "application/json");
-				var response = await client.PutAsync($"https://localhost:7188/api/DoctorApi/{doctor.DoctorID}", content);
+				var response = await client.PutAsync($"https://localhost:44327/api/DoctorApi/{doctor.DoctorID}", content);
 					if (response.IsSuccessStatusCode)
 				    {
 					return RedirectToAction("Index");
@@ -181,10 +184,9 @@ namespace Hospital_appointment_system.Controllers
             return View(obj);
         }
 
-		//GET //GET Delete
-		public async Task<IActionResult> Delete(int? id)
-
-
+        //GET //GET Delete
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<IActionResult> Delete(int? id)
 		{
 			@ViewData["DeleteDoctor"]= _localizer["DeleteDoctor"];
 			@ViewData["Delete"]= _localizer["Delete"];
@@ -207,7 +209,8 @@ namespace Hospital_appointment_system.Controllers
 		//POST Delete
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeletePOST(DoctorViewModel id)
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<IActionResult> DeletePOST(DoctorViewModel id)
 		{
 			//	var obj = await _context.Doctors.FindAsync(id.doctor.DoctorID);
 			//	if (obj == null)
@@ -218,7 +221,7 @@ namespace Hospital_appointment_system.Controllers
 			//	_context.SaveChanges();
 			var doctorId = id.doctor.DoctorID;
 			  HttpClient client = new HttpClient();
-			var response = await client.DeleteAsync($"https://localhost:7188/api/DoctorApi/{doctorId}");
+			var response = await client.DeleteAsync($"https://localhost:44327/api/DoctorApi/{doctorId}");
 			if (response.IsSuccessStatusCode)
 			{
                 return RedirectToAction("Index");

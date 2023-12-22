@@ -50,7 +50,7 @@ namespace Hospital_appointment_system.Controllers
 
                         if (isAdmin)
                         {
-                            return RedirectToAction("Index", "Admin");
+                            return RedirectToAction("ListAdmin", "PatientUser");
                         }
                         else
                         {
