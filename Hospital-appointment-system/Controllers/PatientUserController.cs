@@ -32,7 +32,7 @@ namespace Hospital_appointment_system.Controllers
             _localizer = localizer; // Assign the passed localizer to the _localizer field
         }
 
-        //[Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> Index(UserType userType = UserType.Patients)
         {
             IEnumerable<PatientUser> users;
@@ -72,7 +72,6 @@ namespace Hospital_appointment_system.Controllers
                     patients.Add(user);
                 }
             }
-
             return View(patients); // Make sure you have a corresponding view to display the list of patients
         }
         [Authorize(Roles = UserRoles.Admin)]
@@ -98,9 +97,7 @@ namespace Hospital_appointment_system.Controllers
             }
 
             return View(patients); // Make sure you have a corresponding view to display the list of patients
-
         }
-
 
         // GET: User/Create
         [HttpGet]
@@ -125,7 +122,8 @@ namespace Hospital_appointment_system.Controllers
                 }
                 var user = new PatientUser
                 {
-                    UserName = patientUser.Username,
+                    Name = patientUser.Username,
+                    UserName = patientUser.EmailAddress,
                     Email = patientUser.EmailAddress,
                     Gender = patientUser.Gender,
                     EmailConfirmed = true  // or set based on your application logic
@@ -171,7 +169,7 @@ namespace Hospital_appointment_system.Controllers
             return View(patientUser);
         }
         //POST Edit
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PatientUser model)
@@ -190,7 +188,8 @@ namespace Hospital_appointment_system.Controllers
             //getting the user role
             var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
             // Update the user's properties
-            user.UserName = model.UserName;
+            user.Name = model.Name; // Corrected: Assigning model.Name to user.Name
+            user.UserName = model.Email; // Assuming you want to keep UserName and Email same
             user.Email = model.Email;
             user.Gender = model.Gender;
 
@@ -222,7 +221,8 @@ namespace Hospital_appointment_system.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteAsync(string? id)
         {
-            @ViewData["BacktoList"] = _localizer["BacktoList"];
+			@ViewData["Delete"] = _localizer["Delete"];
+			@ViewData["BacktoList"] = _localizer["BacktoList"];
             @ViewData["DeletePatient"] = _localizer["DeletePatient"];
 
             if (id == null)
@@ -244,7 +244,7 @@ namespace Hospital_appointment_system.Controllers
         public async Task<IActionResult> Delete(PatientUser User)
         {
 
-            var isAdmin = await _userManager.IsInRoleAsync(User, "Admin");
+			var isAdmin = await _userManager.IsInRoleAsync(User, "Admin");
 
             var user1 = await _userManager.FindByIdAsync(User.Id);
             _context.Remove(user1);
@@ -283,7 +283,7 @@ namespace Hospital_appointment_system.Controllers
             return View(patientUser);
         }
         //POST Edit
-        //[Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAdmin(PatientUser model)
@@ -299,24 +299,26 @@ namespace Hospital_appointment_system.Controllers
                 // Handle the case where the user isn't found
                 return NotFound();
             }
-            //getting the user role
-            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+
             // Update the user's properties
-            user.UserName = model.UserName;
+            user.Name = model.Name; // Corrected: Assigning model.Name to user.Name
+            user.UserName = model.Email; // Assuming you want to keep UserName and Email same
             user.Email = model.Email;
             user.Gender = model.Gender;
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-
-                //checking the user`s role to redirect to its own list page
+                // Checking the user's role to redirect to the appropriate list page
+                var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
                 if (isAdmin)
                 {
                     return RedirectToAction(nameof(ListAdmin));
                 }
                 else
+                {
                     return RedirectToAction(nameof(ListPatients));
+                }
             }
             else
             {
@@ -328,6 +330,7 @@ namespace Hospital_appointment_system.Controllers
                 return View(model);
             }
         }
+
         [Authorize(Roles = UserRoles.Admin)]
 
         // GET: User/Delete
@@ -336,8 +339,9 @@ namespace Hospital_appointment_system.Controllers
         {
             @ViewData["BacktoList"] = _localizer["BacktoList"];
             @ViewData["DeletePatient"] = _localizer["DeletePatient"];
+            @ViewData["Delete"] = _localizer["Delete"];
 
-            if (id == null)
+			if (id == null)
             {
                 return NotFound();
             }
@@ -391,8 +395,9 @@ namespace Hospital_appointment_system.Controllers
                 }
                 var user = new PatientUser
                 {
-                    UserName = patientUser.Username,
+                    Name = patientUser.Username,
                     Email = patientUser.EmailAddress,
+                    UserName = patientUser.EmailAddress,
                     Gender = patientUser.Gender,
                     EmailConfirmed = true  // or set based on your application logic
                 };

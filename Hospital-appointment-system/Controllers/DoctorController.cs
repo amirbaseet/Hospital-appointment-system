@@ -23,7 +23,7 @@ namespace Hospital_appointment_system.Controllers
 
 		}
 
-		//[Authorize(Roles = UserRoles.Admin)]
+		[Authorize(Roles = UserRoles.Admin)]
 		public async Task<IActionResult> Index()
 		{
             ViewData["Doctor`sList"]= _localizer["Doctor`sList"];
@@ -76,6 +76,8 @@ namespace Hospital_appointment_system.Controllers
 
             return RedirectToAction("Index");
 		}
+		[Authorize(Roles = UserRoles.Admin)]
+
 		[HttpGet]
         public async Task<IActionResult> CreateWorkingHours(int doctorId) // Make sure you pass the doctorId
         {
@@ -89,7 +91,9 @@ namespace Hospital_appointment_system.Controllers
             };
             return View(viewModel);
         }
-        [HttpPost]
+		[Authorize(Roles = UserRoles.Admin)]
+
+		[HttpPost]
 		public async Task<IActionResult> CreateWorkingHoursAsync(WorkingHourViewModel obj)
         {
 			if (ModelState.IsValid)
@@ -111,7 +115,9 @@ namespace Hospital_appointment_system.Controllers
             }
             return View(obj);
         }
-        public async Task<IActionResult> DoctorsWithWorkingHours()
+		[Authorize(Roles = UserRoles.Admin)]
+
+		public async Task<IActionResult> DoctorsWithWorkingHours()
         {
             @ViewData["ListDoctors"]= _localizer["ListDoctors"];
             @ViewData["Doctor`sWorkingHours"] = _localizer["Doctor`sWorkingHours"];
@@ -134,8 +140,10 @@ namespace Hospital_appointment_system.Controllers
 
             return View(doctorsWithHours);
         }
-        //GET Edit
-        public async Task<IActionResult> Edit(int? id)
+		[Authorize(Roles = UserRoles.Admin)]
+
+		//GET Edit
+		public async Task<IActionResult> Edit(int? id)
 		{
 			ViewData["EditDoctor"] = _localizer["EditDoctor"];
 			ViewData["Update"] = _localizer["Update"];
@@ -157,29 +165,33 @@ namespace Hospital_appointment_system.Controllers
 			edit.clinicList = await _context.Clinic.ToListAsync();
 			return View(edit);
 		}
+		[Authorize(Roles = UserRoles.Admin)]
 		//POST Edit
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 
 		public async Task<IActionResult> Edit(DoctorViewModel obj)
 		{
-			var doctor = obj.doctor;
-			if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
+			if (ModelState.IsValid)
 			{
-			  HttpClient client = new HttpClient();
-				var jason = JsonConvert.SerializeObject(doctor);
-				var content = new StringContent(jason,Encoding.UTF8, "application/json");
-				var response = await client.PutAsync($"https://localhost:7188/api/DoctorApi/{doctor.DoctorID}", content);
+				var doctor = obj.doctor;
+				if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
+				{
+					HttpClient client = new HttpClient();
+					var jason = JsonConvert.SerializeObject(doctor);
+					var content = new StringContent(jason, Encoding.UTF8, "application/json");
+					var response = await client.PutAsync($"https://localhost:7188/Api/DoctorApi/{doctor.DoctorID}", content);
 					if (response.IsSuccessStatusCode)
-				    {
-					return RedirectToAction("Index");
+					{
+						return RedirectToAction("Index");
 					}
-            }
-
+				}
+			}
             // Handle failure case
             // Possibly reload the form with error messages or log the error
             return View(obj);
         }
+		[Authorize(Roles = UserRoles.Admin)]
 
 		//GET //GET Delete
 		public async Task<IActionResult> Delete(int? id)
@@ -204,6 +216,7 @@ namespace Hospital_appointment_system.Controllers
 			edit.clinicList = await _context.Clinic.ToListAsync();
 			return View(edit);
 		}
+		[Authorize(Roles = UserRoles.Admin)]
 		//POST Delete
 		[HttpPost]
 		[ValidateAntiForgeryToken]

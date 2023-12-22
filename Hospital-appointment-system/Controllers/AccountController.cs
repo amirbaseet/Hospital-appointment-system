@@ -50,11 +50,11 @@ namespace Hospital_appointment_system.Controllers
 
                         if (isAdmin)
                         {
-                            return RedirectToAction("Index", "Admin");
+                            return RedirectToAction("ListAdmin", "PatientUser");
                         }
                         else
                         {
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index", "PatientUser");
                         }
                     }
                 }
@@ -83,7 +83,8 @@ namespace Hospital_appointment_system.Controllers
             var newUser = new PatientUser()
             {
                 Email = registerViewModel.EmailAddress,
-                UserName = registerViewModel.Username,
+                UserName = registerViewModel.EmailAddress,
+                Name = registerViewModel.Username,
                 Gender = registerViewModel.Gender,
                 EmailConfirmed = true
             };

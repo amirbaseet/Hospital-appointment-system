@@ -27,7 +27,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 
 // Register your DataService
-//builder.Services.AddScoped<DataService>();
 builder.Services.AddHttpClient<DataService>(); // Add this line
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -105,9 +104,9 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 });
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 
