@@ -58,6 +58,7 @@ namespace Hospital_appointment_system.Controllers
             {
                 doct.Name=doctor.Name;
                 doct.ClinicID=doctor.ClinicID;
+                doct.Specialization=doctor.Specialization;
                 //doct.Appointments = null;
                 //doct.WorkingHours = null;
                 //doct.Clinic = null;
