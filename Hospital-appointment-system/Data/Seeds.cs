@@ -105,7 +105,8 @@ namespace Hospital_appointment_system.Data
 				{
 					var newAdminUser = new PatientUser()
 					{
-						UserName = "AmroBASEET",
+						UserName = adminUserEmail,
+						Name = "AmroBASEET",
 						Email = adminUserEmail,
 						Gender = Enum.GenderCategory.male,
 						EmailConfirmed = true,
@@ -116,8 +117,9 @@ namespace Hospital_appointment_system.Data
 					adminUserEmail = "B201210560@sakarya.edu.tr";
 					newAdminUser = new PatientUser()
 					{
-						UserName = "SuhaibOTHMAN",
+						Name = "SuhaibOTHMAN",
 						Email = adminUserEmail,
+						UserName = adminUserEmail,
 						Gender = Enum.GenderCategory.male,
 						EmailConfirmed = true,
 
@@ -132,7 +134,8 @@ namespace Hospital_appointment_system.Data
 				{
 					var newAppUser = new PatientUser()
 					{
-						UserName = "app-user",
+						Name = "app-user",
+						UserName = appUserEmail,
 						Email = appUserEmail,
 						Gender = Enum.GenderCategory.male,
 						EmailConfirmed = true,
@@ -146,7 +149,8 @@ namespace Hospital_appointment_system.Data
 		{
 			var user = new PatientUser
 			{
-				UserName = model.Username,
+                Name = model.Username,
+				UserName = model.EmailAddress,
 				Email = model.EmailAddress,
 				Gender = model.Gender,
 				EmailConfirmed = true  // or set based on your application logic
@@ -166,8 +170,9 @@ namespace Hospital_appointment_system.Data
 		{
 			var user = new PatientUser
 			{
-				UserName = model.Username,
-				Email = model.EmailAddress,
+                Name = model.Username,
+                UserName = model.EmailAddress,
+                Email = model.EmailAddress,
 				Gender = model.Gender,
 				EmailConfirmed = true  // or set based on your application logic
 			};

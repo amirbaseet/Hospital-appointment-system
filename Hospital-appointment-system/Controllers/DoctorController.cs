@@ -75,6 +75,8 @@ namespace Hospital_appointment_system.Controllers
 
             return RedirectToAction("Index");
 		}
+		[Authorize(Roles = UserRoles.Admin)]
+
 		[HttpGet]
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> CreateWorkingHours(int doctorId) // Make sure you pass the doctorId
@@ -90,8 +92,7 @@ namespace Hospital_appointment_system.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        [Authorize(Roles = UserRoles.Admin)]
-        public async Task<IActionResult> CreateWorkingHoursAsync(WorkingHourViewModel obj)
+		public async Task<IActionResult> CreateWorkingHoursAsync(WorkingHourViewModel obj)
         {
 			if (ModelState.IsValid)
 			{
@@ -112,7 +113,6 @@ namespace Hospital_appointment_system.Controllers
             }
             return View(obj);
         }
-        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> DoctorsWithWorkingHours()
         {
             @ViewData["ListDoctors"]= _localizer["ListDoctors"];
@@ -137,7 +137,6 @@ namespace Hospital_appointment_system.Controllers
             return View(doctorsWithHours);
         }
         //GET Edit
-        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(int? id)
 		{
 			ViewData["EditDoctor"] = _localizer["EditDoctor"];
@@ -160,29 +159,33 @@ namespace Hospital_appointment_system.Controllers
 			edit.clinicList = await _context.Clinic.ToListAsync();
 			return View(edit);
 		}
+		[Authorize(Roles = UserRoles.Admin)]
 		//POST Edit
 		[HttpPost]
 		[ValidateAntiForgeryToken]
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(DoctorViewModel obj)
 		{
-			var doctor = obj.doctor;
-			if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
+			if (ModelState.IsValid)
 			{
-			  HttpClient client = new HttpClient();
-				var jason = JsonConvert.SerializeObject(doctor);
-				var content = new StringContent(jason,Encoding.UTF8, "application/json");
-				var response = await client.PutAsync($"https://localhost:44327/api/DoctorApi/{doctor.DoctorID}", content);
+				var doctor = obj.doctor;
+				if (doctor.ClinicID > 0 && doctor.Specialization != string.Empty && doctor.Name != string.Empty)
+				{
+					HttpClient client = new HttpClient();
+					var jason = JsonConvert.SerializeObject(doctor);
+					var content = new StringContent(jason, Encoding.UTF8, "application/json");
+					var response = await client.PutAsync($"https://localhost:7188/Api/DoctorApi/{doctor.DoctorID}", content);
 					if (response.IsSuccessStatusCode)
-				    {
-					return RedirectToAction("Index");
+					{
+						return RedirectToAction("Index");
 					}
-            }
-
+				}
+			}
             // Handle failure case
             // Possibly reload the form with error messages or log the error
             return View(obj);
         }
+		[Authorize(Roles = UserRoles.Admin)]
 
         //GET //GET Delete
         [Authorize(Roles = UserRoles.Admin)]
@@ -206,6 +209,7 @@ namespace Hospital_appointment_system.Controllers
 			edit.clinicList = await _context.Clinic.ToListAsync();
 			return View(edit);
 		}
+		[Authorize(Roles = UserRoles.Admin)]
 		//POST Delete
 		[HttpPost]
 		[ValidateAntiForgeryToken]

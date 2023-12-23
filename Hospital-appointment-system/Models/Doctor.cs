@@ -14,13 +14,13 @@ namespace Hospital_appointment_system.Models
         public int ClinicID { get; set; }
 
         // Navigation property for related department
-        public virtual Clinic Clinic { get; set; } = null;
+        //public virtual Clinic Clinic { get; set; } = null;
 
-        // Navigation property for working hours
-        public virtual ICollection<WorkingHour> WorkingHours { get; set; } = null;
+        //// Navigation property for working hours
+        //public virtual ICollection<WorkingHour> WorkingHours { get; set; } = null;
 
-        // Navigation property for appointments
-        public virtual ICollection<Appointment> Appointments { get; set; } = null;
+        //// Navigation property for appointments
+        //public virtual ICollection<Appointment> Appointments { get; set; } = null;
     }
 }
 

@@ -7,59 +7,42 @@ using System.Globalization;
 
 namespace Hospital_appointment_system.Controllers
 {
-    public class HomeController : Controller
-    {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IStringLocalizer<HomeController> _localizer;
+	public class HomeController : Controller
+	{
+		private readonly ILogger<HomeController> _logger;
+		private readonly IStringLocalizer<HomeController> _localizer;
 
-        public HomeController(ILogger<HomeController> logger
-            , IStringLocalizer<HomeController> localizer)
-        {
-            _logger = logger;
-            _localizer = localizer;
-        }
-        [HttpPost]
-        public IActionResult SetCulture(string culture, string returnUrl)
-        {
-            Response.Cookies.Append(
-                CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-            );
-            return LocalRedirect(returnUrl);
-        }
-        public IActionResult SetLanguage(string culture, string returnUrl)
-        {
-            // Log the received culture string
-            Console.WriteLine("Selected Culture: " + culture);
-
-            Response.Cookies.Append(
-                CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-            );
-
-            return LocalRedirect(returnUrl);
-        }
-        public IActionResult Index()
-        {
-            // Use _localizer to get localized strings
-            ViewData["Greeting"] = _localizer["WelcomeMessage"];
-            ViewData["Home2"] = _localizer["Home2"];
-            // Add more localized strings as needed
-            return View();
-        }
+		public HomeController(ILogger<HomeController> logger
+			, IStringLocalizer<HomeController> localizer)
+		{
+			_logger = logger;
+			_localizer = localizer;
+		}
+		
+	
+		public IActionResult Index()
+		{
+			// Use _localizer to get localized strings
+			ViewData["Greeting"] = _localizer["WelcomeMessage"];
+			ViewData["Home2"] = _localizer["Home2"];
+			// Add more localized strings as needed
+			return View();
+		}
 
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+		public IActionResult Privacy()
+		{
+			return View();
+		}
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult Error()
+		{
+			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+		}
+	}
 }
+
+
+
+

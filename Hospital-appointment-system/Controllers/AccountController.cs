@@ -54,7 +54,7 @@ namespace Hospital_appointment_system.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index", "PatientUser");
                         }
                     }
                 }
@@ -83,7 +83,8 @@ namespace Hospital_appointment_system.Controllers
             var newUser = new PatientUser()
             {
                 Email = registerViewModel.EmailAddress,
-                UserName = registerViewModel.Username,
+                UserName = registerViewModel.EmailAddress,
+                Name = registerViewModel.Username,
                 Gender = registerViewModel.Gender,
                 EmailConfirmed = true
             };

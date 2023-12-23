@@ -6,5 +6,9 @@ public class DoctorViewModel
     public Doctor doctor { get; set; }
     public List<Clinic> clinicList { get; set; } = null;
     public List<WorkingHourViewModel> WorkingHours { get; set; } = new List<WorkingHourViewModel>();
+	public DoctorViewModel()
+	{
+		clinicList = new List<Clinic>(); // Ensure it's initialized
+	}
 }
 
