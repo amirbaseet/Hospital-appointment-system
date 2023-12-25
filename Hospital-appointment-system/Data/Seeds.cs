@@ -56,28 +56,6 @@ namespace Hospital_appointment_system.Data
 					});
 					context.SaveChanges();
 				}
-				// Seed Working Hours
-				//if (!context.WorkingHours.Any())
-				//{
-				//    context.WorkingHours.AddRange(new List<WorkingHour>
-				//    {
-				//    new WorkingHour { DoctorID = 3, DayOfWeek = "Monday", StartTime = TimeSpan.Parse("08:00"), EndTime = TimeSpan.Parse("16:00") },
-				//    new WorkingHour { DoctorID = 4, DayOfWeek = "Monday", StartTime = TimeSpan.Parse("09:00"), EndTime = TimeSpan.Parse("17:00") }
-				//    });
-				//    context.SaveChanges();
-				//}
-
-				//// Seed Appointments
-				//if (!context.Appointments.Any())
-				//{
-				//    context.Appointments.AddRange(new List<Appointment>
-				//    {
-				//    new Appointment { PatientUserID = 1, DoctorID = 1, Date = DateTime.Parse("2023-12-01"), Time = TimeSpan.Parse("10:00"), Status = "Scheduled" },
-				//    new Appointment { PatientUserID = 123457, DoctorID = 2, Date = DateTime.Parse("2023-12-02"), Time = TimeSpan.Parse("11:00"), Status = "Scheduled" }
-				//     });
-				//    context.SaveChanges();
-				//}
-
 			}
 		}
 

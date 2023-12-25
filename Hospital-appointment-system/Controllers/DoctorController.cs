@@ -1,4 +1,5 @@
 using Hospital_appointment_system.Data;
+using Hospital_appointment_system.Data.Enum;
 using Hospital_appointment_system.Models;
 using Hospital_appointment_system.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -102,11 +103,33 @@ namespace Hospital_appointment_system.Controllers
 					StartTime = obj.StartTime,
 					EndTime = obj.EndTime,
 					DayOfWeek = obj.DayOfWeek.ToString()
-            };
-				if (obj.DayOfWeek != null)
+				};
+                
+                if (obj.DayOfWeek != null)
 				{
-					_context.WorkingHours.Add(workingHour);
-					 _context.SaveChanges();
+                    for (int i = 0; i < obj.EndTime.Hours - obj.StartTime.Hours; i++)
+                    {
+						AvailableAppointments availableAppointments = new AvailableAppointments
+						{
+
+							DoctorID = obj.DoctorID,
+							DayOfWeek = obj.DayOfWeek.ToString(),
+                            AppointmentStatus = AppointmentStatus.active,
+							Time = new TimeSpan(obj.StartTime.Hours + i, 00, 00),
+						};
+                        _context.AppointmentStatus.Add(availableAppointments);
+                        AvailableAppointments availableAppointments2 = new AvailableAppointments
+                        {
+
+                            DoctorID = obj.DoctorID,
+                            DayOfWeek = obj.DayOfWeek.ToString(),
+                            AppointmentStatus = AppointmentStatus.active,
+                            Time = new TimeSpan(obj.StartTime.Hours + i, 30, 00),
+						};
+                        _context.AppointmentStatus.Add(availableAppointments2);
+                    }
+                    _context.WorkingHours.Add(workingHour);
+					_context.SaveChanges();
                     return RedirectToAction("Index");
 
                 }
@@ -174,7 +197,7 @@ namespace Hospital_appointment_system.Controllers
 					HttpClient client = new HttpClient();
 					var jason = JsonConvert.SerializeObject(doctor);
 					var content = new StringContent(jason, Encoding.UTF8, "application/json");
-					var response = await client.PutAsync($"https://localhost:7188/Api/DoctorApi/{doctor.DoctorID}", content);
+					var response = await client.PutAsync($"https://localhost:44327/Api/DoctorApi/{doctor.DoctorID}", content);
 					if (response.IsSuccessStatusCode)
 					{
 						return RedirectToAction("Index");

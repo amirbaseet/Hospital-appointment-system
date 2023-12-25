@@ -47,14 +47,13 @@ namespace Hospital_appointment_system.Controllers
                     if (result.Succeeded) 
                     {
                         var isAdmin = await _userManeger.IsInRoleAsync(user, UserRoles.Admin);
-
                         if (isAdmin)
                         {
                             return RedirectToAction("ListAdmin", "PatientUser");
                         }
                         else
                         {
-                            return RedirectToAction("Index", "PatientUser");
+                            return RedirectToAction("Index", "Home");
                         }
                     }
                 }
