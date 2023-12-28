@@ -17,7 +17,7 @@ namespace Hospital_appointment_system.Data
 
         public async Task<IEnumerable<Doctor>> GetDataAsync()
         {
-            var response = await _httpClient.GetAsync("https://localhost:7188/api/DoctorApi");
+            var response = await _httpClient.GetAsync("https://localhost:44327/api/DoctorApi");
             response.EnsureSuccessStatusCode();
 
             var jsonString = await response.Content.ReadAsStringAsync();

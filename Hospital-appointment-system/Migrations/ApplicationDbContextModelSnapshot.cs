@@ -51,32 +51,50 @@ namespace Hospital_appointment_system.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentID"), 1L, 1);
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("AvailableAppointmentsID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClinicID")
+                        .HasColumnType("int");
 
                     b.Property<int>("DoctorID")
                         .HasColumnType("int");
 
-                    b.Property<int>("PatientUserID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
+                    b.Property<string>("PatientUserID")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AppointmentID");
+
+                    b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("Hospital_appointment_system.Models.AvailableAppointments", b =>
+                {
+                    b.Property<int>("AvailableAppointmentsID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvailableAppointmentsID"), 1L, 1);
+
+                    b.Property<int>("AppointmentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DayOfWeek")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DoctorID")
+                        .HasColumnType("int");
 
                     b.Property<TimeSpan>("Time")
                         .HasColumnType("time");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("AppointmentID");
+                    b.HasKey("AvailableAppointmentsID");
 
                     b.HasIndex("DoctorID");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Appointments");
+                    b.ToTable("AppointmentStatus");
                 });
 
             modelBuilder.Entity("Hospital_appointment_system.Models.Clinic", b =>
@@ -385,21 +403,15 @@ namespace Hospital_appointment_system.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Hospital_appointment_system.Models.Appointment", b =>
+            modelBuilder.Entity("Hospital_appointment_system.Models.AvailableAppointments", b =>
                 {
                     b.HasOne("Hospital_appointment_system.Models.Doctor", "Doctor")
-                        .WithMany("Appointments")
+                        .WithMany()
                         .HasForeignKey("DoctorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Hospital_appointment_system.Models.PatientUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Doctor");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Hospital_appointment_system.Models.Clinic", b =>
@@ -415,19 +427,17 @@ namespace Hospital_appointment_system.Migrations
 
             modelBuilder.Entity("Hospital_appointment_system.Models.Doctor", b =>
                 {
-                    b.HasOne("Hospital_appointment_system.Models.Clinic", "Clinic")
+                    b.HasOne("Hospital_appointment_system.Models.Clinic", null)
                         .WithMany("Doctors")
                         .HasForeignKey("ClinicID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Clinic");
                 });
 
             modelBuilder.Entity("Hospital_appointment_system.Models.WorkingHour", b =>
                 {
                     b.HasOne("Hospital_appointment_system.Models.Doctor", "Doctor")
-                        .WithMany("WorkingHours")
+                        .WithMany()
                         .HasForeignKey("DoctorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -494,13 +504,6 @@ namespace Hospital_appointment_system.Migrations
             modelBuilder.Entity("Hospital_appointment_system.Models.Departments", b =>
                 {
                     b.Navigation("Clinics");
-                });
-
-            modelBuilder.Entity("Hospital_appointment_system.Models.Doctor", b =>
-                {
-                    b.Navigation("Appointments");
-
-                    b.Navigation("WorkingHours");
                 });
 #pragma warning restore 612, 618
         }

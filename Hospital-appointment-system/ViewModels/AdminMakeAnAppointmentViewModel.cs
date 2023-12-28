@@ -1,22 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Hospital_appointment_system.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Hospital_appointment_system.Models
+namespace Hospital_appointment_system.ViewModels
 {
-    public class Appointment
+    public class AdminMakeAnAppointmentViewModel
     {
-        [Key]
-        public int AppointmentID { get; set; }
+
+        [ForeignKey("PatientUser")]
+        public string Id { get; set; }
 
         [ForeignKey("Clinic")]
         public int ClinicID { get; set; }
         [ForeignKey("PatientUser")]
-        public string PatientUserID { get; set; }
-        [ForeignKey("Doctor")]
         public int DoctorID { get; set; }
+
+        [ForeignKey("WorkingHour")]
+        public int HoursID { get; set; }
 
         [ForeignKey("AvailableAppointments")]
         public int AvailableAppointmentsID { get; set; }
-
     }
 }

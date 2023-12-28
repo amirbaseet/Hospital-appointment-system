@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hospital_appointment_system.Migrations
 {
-    public partial class First : Migration
+    public partial class AddCategoryToDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,6 +21,22 @@ namespace Hospital_appointment_system.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AdminUser", x => x.AdminID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    AppointmentID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClinicID = table.Column<int>(type: "int", nullable: false),
+                    PatientUserID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorID = table.Column<int>(type: "int", nullable: false),
+                    AvailableAppointmentsID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.AppointmentID);
                 });
 
             migrationBuilder.CreateTable(
@@ -227,28 +243,21 @@ namespace Hospital_appointment_system.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Appointments",
+                name: "AppointmentStatus",
                 columns: table => new
                 {
-                    AppointmentID = table.Column<int>(type: "int", nullable: false)
+                    AvailableAppointmentsID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientUserID = table.Column<int>(type: "int", nullable: false),
                     DoctorID = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DayOfWeek = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Time = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    AppointmentStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Appointments", x => x.AppointmentID);
+                    table.PrimaryKey("PK_AppointmentStatus", x => x.AvailableAppointmentsID);
                     table.ForeignKey(
-                        name: "FK_Appointments_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Appointments_Doctors_DoctorID",
+                        name: "FK_AppointmentStatus_Doctors_DoctorID",
                         column: x => x.DoctorID,
                         principalTable: "Doctors",
                         principalColumn: "DoctorID",
@@ -278,14 +287,9 @@ namespace Hospital_appointment_system.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_DoctorID",
-                table: "Appointments",
+                name: "IX_AppointmentStatus_DoctorID",
+                table: "AppointmentStatus",
                 column: "DoctorID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_UserId",
-                table: "Appointments",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -349,6 +353,9 @@ namespace Hospital_appointment_system.Migrations
 
             migrationBuilder.DropTable(
                 name: "Appointments");
+
+            migrationBuilder.DropTable(
+                name: "AppointmentStatus");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");

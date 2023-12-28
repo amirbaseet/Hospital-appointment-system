@@ -17,8 +17,8 @@ namespace Hospital_appointment_system.Data
         public DbSet<AdminUser> AdminUser { get; set; }
         public DbSet<Clinic> Clinic { get; set; }
         public DbSet<WorkingHour> WorkingHours { get; set; }
-
         public DbSet<Departments> Departments { get; set; }
+        public DbSet<AvailableAppointments> AppointmentStatus { get; set; }
 
     }
 }

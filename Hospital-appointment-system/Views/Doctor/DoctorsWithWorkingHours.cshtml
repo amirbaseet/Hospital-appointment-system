@@ -23,21 +23,20 @@
                     <th>@Html.DisplayNameFor(modil=>modil.Name)</th>
                     <th>@Html.DisplayNameFor(modil=>modil.Specialization)</th>
                     <th>@Html.DisplayNameFor(modil=>modil.WorkingHours)</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var obj in Model)
                 {
                     <tr>
-                        <td width="50%">
+                        <td width="30%">
                             @obj.Name
 
                         </td>
                         <td width="30%">
                             @obj.Specialization
                         </td> 
-                        <td width="30%">
+                        <td width="40%">
                             @foreach (var hour in obj.WorkingHours)
                             {
                                 <div>@hour.DayOfWeek: @hour.StartTime - @hour.EndTime</div>

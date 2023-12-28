@@ -32,7 +32,7 @@ namespace Hospital_appointment_system.Controllers
             _localizer = localizer; // Assign the passed localizer to the _localizer field
         }
 
-        [Authorize(Roles = UserRoles.User)]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Index(UserType userType = UserType.Patients)
         {
             IEnumerable<PatientUser> users;
@@ -52,6 +52,7 @@ namespace Hospital_appointment_system.Controllers
 
             return View(users);
         }
+
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> ListPatients()
         {
@@ -74,8 +75,8 @@ namespace Hospital_appointment_system.Controllers
             }
             return View(patients); // Make sure you have a corresponding view to display the list of patients
         }
-        [Authorize(Roles = UserRoles.Admin)]
 
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> ListAdmin()
         {
             ViewData["AdminsList"] = _localizer["AdminsList"];
@@ -109,6 +110,7 @@ namespace Hospital_appointment_system.Controllers
             @ViewData["BacktoList"] = _localizer["BacktoList"];
             return View();
         }
+
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Create(RegisterViewModel patientUser)
@@ -143,12 +145,10 @@ namespace Hospital_appointment_system.Controllers
             // If we reach here, something went wrong, re-show form
             return View(patientUser);
         }
-
        
-        [Authorize(Roles = UserRoles.Admin)]
         //GET Edit
         [HttpGet]
-
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(string? id)
         {
             @ViewData["EditPatient"] = _localizer["EditPatient"];
@@ -168,10 +168,12 @@ namespace Hospital_appointment_system.Controllers
             // Pass the PatientUser model to the view
             return View(patientUser);
         }
+
         //POST Edit
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(PatientUser model)
         {
             if (!ModelState.IsValid)
@@ -215,10 +217,10 @@ namespace Hospital_appointment_system.Controllers
                 return View(model);
             }
         }
-        [Authorize(Roles = UserRoles.Admin)]
 
         // GET: User/Delete
         [HttpGet]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> DeleteAsync(string? id)
         {
 			@ViewData["Delete"] = _localizer["Delete"];
@@ -238,9 +240,9 @@ namespace Hospital_appointment_system.Controllers
             return View(patientsFromDb);
 
         }
-        [Authorize(Roles = UserRoles.Admin)]
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Delete(PatientUser User)
         {
 
@@ -259,10 +261,10 @@ namespace Hospital_appointment_system.Controllers
         }
         ///////////////////////////////////////////////////////////////
         ///Admin part
-        [Authorize(Roles = UserRoles.Admin)]
         //GET Edit
-        [HttpGet]
 
+        [HttpGet]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> EditAdmin(string? id)
         {
             @ViewData["EditPatient"] = _localizer["EditPatient"];
@@ -282,10 +284,12 @@ namespace Hospital_appointment_system.Controllers
             // Pass the PatientUser model to the view
             return View(patientUser);
         }
+
         //POST Edit
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> EditAdmin(PatientUser model)
         {
             if (!ModelState.IsValid)
@@ -330,11 +334,11 @@ namespace Hospital_appointment_system.Controllers
                 return View(model);
             }
         }
-
         [Authorize(Roles = UserRoles.Admin)]
 
         // GET: User/Delete
         [HttpGet]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> DeleteAdmin(string? id)
         {
             @ViewData["BacktoList"] = _localizer["BacktoList"];
@@ -354,6 +358,7 @@ namespace Hospital_appointment_system.Controllers
             return View(patientsFromDb);
 
         }
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> DeleteAdmin(PatientUser User)
         {
 
@@ -415,6 +420,7 @@ namespace Hospital_appointment_system.Controllers
             TempData["Error"] = "entered information is not correct";
             // If we reach here, something went wrong, re-show form
             return View(patientUser);
-        }    }
+        }    
+    }
 }
 

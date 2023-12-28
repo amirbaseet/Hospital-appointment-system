@@ -20,12 +20,6 @@
     <link href="~/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="~/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="~/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
     <!-- Template Main CSS File -->
     <link href="~/assets/css/style.css" rel="stylesheet">
@@ -64,19 +58,17 @@
                         @if (User.IsInRole("admin"))
                         {
                             <li>
-                                <a class="nav-link scrollto" asp-controller="Admin" asp-action="Index">
-                                    Admin @User.Identity.Name
+                                <a class="nav-link scrollto" asp-controller="PatientUser" asp-action="ListAdmin">
+                                    Admin
                                 </a>
                             </li>
                         }
                         else
                         {
-                            <li><a class="nav-link scrollto" href="#about">Randevu Al</a></li>
-                            <li><a class="nav-link scrollto" href="#doctors">Randevularım</a></li>
+                            <li><a class="nav-link scrollto" asp-controller="Appointment" asp-action="MakeAnAppointment"> Randevu Al</a></li>
+                            <li><a class="nav-link scrollto" asp-controller="Appointment" asp-action="MyAppointments">Randevularım</a></li>
                         }
-
-
-                                                                                                 <li class="dropdown">
+                        <li class="dropdown">
                             <h5 class="appointment-btn scrollto" style="margin:0">
                                 <i class="bi bi-person-fill" style="margin-right:5px"></i> <span> @User.Identity.Name</span> <i class="bi bi-chevron-down"></i>
                             </h5>
