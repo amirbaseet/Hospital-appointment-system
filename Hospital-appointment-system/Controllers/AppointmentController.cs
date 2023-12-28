@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using static Hospital_appointment_system.ViewModels.MyAppointmentsViewModel;
 
 namespace Hospital_appointment_system.Controllers
@@ -14,15 +15,25 @@ namespace Hospital_appointment_system.Controllers
     {
         private readonly UserManager<PatientUser> _userManeger;
         private readonly ApplicationDbContext _context;
+        private readonly IStringLocalizer<AppointmentController> _localizer;
 
         public AppointmentController(UserManager<PatientUser> userManeger,
-            ApplicationDbContext context)
+            ApplicationDbContext context, IStringLocalizer<AppointmentController> localizer)
         {
             _userManeger = userManeger;
             _context= context;
+            _localizer=localizer;
         }
         public async Task<IActionResult> MyAppointments()
         {
+            ViewData["MyAppointment"] =_localizer["MyAppointment"];
+            ViewData["Time"]              =_localizer["Time"];
+            ViewData["Day"]               =_localizer["Day"];
+            ViewData["Clinic"]            =_localizer["Clinic"];
+            ViewData["Doctor"]            =_localizer["Doctor"];
+            ViewData["Delete"]            = _localizer["Delete"];
+
+
             var myAppointmentsViewModelList = new List<MyAppointmentsViewModel>();
             
 
@@ -55,6 +66,15 @@ namespace Hospital_appointment_system.Controllers
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> AdminAppointments()
         {
+            @ViewData["AddnewAppointment"] = _localizer["AddnewAppointment"];
+            ViewData["PatientName"]  =_localizer ["PatientName"] ;
+            ViewData["PatientEmail"] =_localizer ["PatientEmail"];
+            ViewData["Clinic"]       =_localizer ["Clinic"]      ;
+            ViewData["Doctor"]       =_localizer ["Doctor"]      ;
+            ViewData["Day"]          =_localizer ["Day"]         ;
+            ViewData["Time"]         =_localizer ["Time"]        ;
+            ViewData["Delete"] = _localizer["Delete"];
+            @ViewData["AppointmentsList"] = _localizer["AppointmentsList"];
             var adminAppointmentsViewModelList = new List<AdminAppointmentsViewModel>();
             var AppointmentListesi = await _context.Appointments.ToListAsync();
             foreach (var appointment in AppointmentListesi)
@@ -90,7 +110,15 @@ namespace Hospital_appointment_system.Controllers
 
         public async Task<IActionResult> MakeAnAppointment()
         {
-			AvailableAppointmentsViewModel viewModel = new AvailableAppointmentsViewModel
+            ViewData["patient"] = _localizer["patient"];
+            ViewData["BacktoList"] = _localizer["BacktoList"];
+            ViewData["MakeanAppointment"] = _localizer["MakeanAppointment"];
+            ViewData["Time"] = _localizer["Time"];
+            ViewData["Day"] = _localizer["Day"];
+            ViewData["Clinic"] = _localizer["Clinic"];
+            ViewData["Doctor"] = _localizer["Doctor"];
+            ViewData["AddnewAppointment"] = _localizer["AddnewAppointment"];
+            AvailableAppointmentsViewModel viewModel = new AvailableAppointmentsViewModel
 			{
 				clinics = await _context.Clinic.ToListAsync()
 			};
@@ -99,6 +127,14 @@ namespace Hospital_appointment_system.Controllers
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> AdminMakeAnAppointment()
         {
+            ViewData["patient"] = _localizer["patient"];
+            ViewData["BacktoList"] = _localizer["BacktoList"];
+            ViewData["MakeanAppointment"] = _localizer["MakeanAppointment"];
+            ViewData["Time"] = _localizer["Time"];
+            ViewData["Day"] = _localizer["Day"];
+            ViewData["Clinic"] = _localizer["Clinic"];
+            ViewData["Doctor"] = _localizer["Doctor"];
+            ViewData["AddnewAppointment"] = _localizer["AddnewAppointment"];
             var users = await _userManeger.Users.ToListAsync();
             var patients = new List<PatientUser>();
 
@@ -123,6 +159,9 @@ namespace Hospital_appointment_system.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAppointment(MakeAnAppointmentViewModel makeAnAppointmentViewModel)
         {
+            ViewData["Clinic"]           =_localizer["Clinic"];
+            ViewData["MakeanAppointment"]=_localizer["MakeanAppointment"];
+            ViewData["Day"]              =_localizer["Day"];
             if (ModelState.IsValid)
             {
                 if (makeAnAppointmentViewModel.AvailableAppointmentsID != null)

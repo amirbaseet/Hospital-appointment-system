@@ -9,15 +9,15 @@
     <div class="container">
 
         <div class="section-title mt-5" style="margin-top:200px">
-            <h2>Make AnAppointment</h2>
+            <h2>@ViewData["MyAppointment"]</h2>
         </div>
         <table class="table table-bordered table-striped m-5" style="width:100%">
             <thead>
                 <tr>
-                    <td><label class="form-label"><i class="fa-regular fa-hospital ml-1"></i> Clinic</label></td>
-                    <td><label class="form-label"><i class="fa-solid fa-user-doctor ml-1"></i> Doctor:</label></td>
-                    <th><label class="form-label"><i class="fa-solid fa-calendar-days ml-1"></i> Day:</label></th>
-                    <td><label class="form-label"><i class="fa-regular fa-clock ml-1"></i> Time:</label></td>
+                    <td><label class="form-label"><i class="fa-regular fa-hospital ml-1"></i> @ViewData["Clinic"]</label></td>
+                    <td><label class="form-label"><i class="fa-solid fa-user-doctor ml-1"></i> @ViewData["Doctor"]:</label></td>
+                    <th><label class="form-label"><i class="fa-solid fa-calendar-days ml-1"></i> @ViewData["Day"]:</label></th>
+                    <td><label class="form-label"><i class="fa-regular fa-clock ml-1"></i> @ViewData["Time"]:</label></td>
                     <!-- Display other properties as needed -->
                     <th></th>
 

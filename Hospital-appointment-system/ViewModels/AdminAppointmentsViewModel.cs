@@ -1,10 +1,8 @@
 ﻿using Hospital_appointment_system.Models;
-
 namespace Hospital_appointment_system.ViewModels
 {
     public class AdminAppointmentsViewModel
     {
-
         public string PatientName { get; set; }
         public string PatientEmail { get; set; }
         public int AppointmentID { get; set; }

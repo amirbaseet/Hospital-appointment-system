@@ -3,7 +3,7 @@
 <div class="container p-3 ">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary"> Add new Appointment</h2>
+            <h2 class="text-primary"> </h2>
         </div>
     </div>
 </div>
@@ -13,7 +13,7 @@
         <form method="post" asp-controller="Appointment" asp-action="AdminCreateAppointment" class="mt-2">
             <div class="row g-2">
                 <div class="col-2 form-group mt-3" style="padding-left:100px">
-                    <label class="form-label"><i class="bi bi-person-fill  ml-1"></i> patient:</label>
+                    <label class="form-label"><i class="bi bi-person-fill  ml-1"></i> @ViewData["patient"]:</label>
                 </div>
                 <div class="col-8 form-group mt-3">
                     <select asp-for="adminMakeAnAppointmentViewModel.Id" class="form-select">
@@ -29,7 +29,7 @@
             </div>
             <div class="row g-2">
                 <div class="col-2 form-group mt-3" style="padding-left:100px">
-                    <label class="form-label"><i class="fa-regular fa-hospital ml-1"></i> Clinic:</label>
+                    <label class="form-label"><i class="fa-regular fa-hospital ml-1"></i> @ViewData["Clinic"]:</label>
 
                 </div>
                 <div class="col-8 form-group mt-3">
@@ -46,7 +46,7 @@
             </div>
             <div class="row g-2">
                 <div class="col-2 form-group mt-3" style="padding-left:100px">
-                    <label class="form-label"><i class="fa-solid fa-user-doctor ml-1"></i> Doctor:</label>
+                    <label class="form-label"><i class="fa-solid fa-user-doctor ml-1"></i> @ViewData["Doctor"]:</label>
                 </div>
                 <div class="col-8 form-group mt-3">
                     <select asp-for="adminMakeAnAppointmentViewModel.DoctorID" class="form-select ListOfDoctors" id="mySelectOfDoctor" disabled>
@@ -56,7 +56,7 @@
             </div>
             <div class="row g-2">
                 <div class="col-2 form-group mt-3" style="padding-left:100px">
-                    <label class="form-label"><i class="fa-solid fa-calendar-days ml-1"></i> Day:</label>
+                    <label class="form-label"><i class="fa-solid fa-calendar-days ml-1"></i> @ViewData["Day"]:</label>
                 </div>
                 <div class="col-8 form-group mt-3">
                     <select asp-for="adminMakeAnAppointmentViewModel.HoursID" class="form-select ListOfWorkingHour" id="mySelectOfWorkingHour" disabled>
@@ -66,7 +66,7 @@
             </div>
             <div class="row g-2">
                 <div class="col-2 form-group mt-3" style="padding-left:100px">
-                    <label class="form-label"><i class="fa-regular fa-clock ml-1"></i> Time:</label>
+                    <label class="form-label"><i class="fa-regular fa-clock ml-1"></i> @ViewData["Time"]:</label>
                 </div>
                 <div class="col-8 form-group mt-3">
                     <select asp-for="adminMakeAnAppointmentViewModel.AvailableAppointmentsID" class="form-select ListOfAvailableAppointments" disabled>
@@ -76,9 +76,9 @@
             </div>
 
             <div class="text-center mt-3">
-                <button class="btn btn-primary" type="submit">Make an Appointment</button>
+                <button class="btn btn-primary" type="submit">@ViewData["MakeanAppointment"]</button>
                 <a asp-controller="Appointment" asp-action="AdminAppointments" class="btn btn-secondary" style="width:150px">
-                    Back to List
+                    @ViewData["BacktoList"]
                 </a>
             </div>
             

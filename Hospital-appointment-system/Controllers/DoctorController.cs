@@ -35,8 +35,8 @@ namespace Hospital_appointment_system.Controllers
 			ViewData["AddWorkingHours"]	 = _localizer["AddWorkingHours"];
             List<Doctor> doctors = new List<Doctor>();
             HttpClient client = new HttpClient();
-            var response = await client.GetAsync("https://localhost:44327/api/DoctorApi");
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+			var response = await client.GetAsync("https://localhost:7188/api/DoctorApi");
+			var jsonResponse = await response.Content.ReadAsStringAsync();
             doctors = JsonConvert.DeserializeObject<List<Doctor>>(jsonResponse);
 
             return View(doctors);
@@ -66,7 +66,7 @@ namespace Hospital_appointment_system.Controllers
                 var json = JsonConvert.SerializeObject(doctor);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("https://localhost:44327/api/DoctorApi", content);
+                var response = await client.PostAsync("https://localhost:7188/api/DoctorApi", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -197,7 +197,7 @@ namespace Hospital_appointment_system.Controllers
 					HttpClient client = new HttpClient();
 					var jason = JsonConvert.SerializeObject(doctor);
 					var content = new StringContent(jason, Encoding.UTF8, "application/json");
-					var response = await client.PutAsync($"https://localhost:44327/Api/DoctorApi/{doctor.DoctorID}", content);
+					var response = await client.PutAsync($"https://localhost:7188/Api/DoctorApi/{doctor.DoctorID}", content);
 					if (response.IsSuccessStatusCode)
 					{
 						return RedirectToAction("Index");
@@ -248,7 +248,7 @@ namespace Hospital_appointment_system.Controllers
 			//	_context.SaveChanges();
 			var doctorId = id.doctor.DoctorID;
 			  HttpClient client = new HttpClient();
-			var response = await client.DeleteAsync($"https://localhost:44327/api/DoctorApi/{doctorId}");
+			var response = await client.DeleteAsync($"https://localhost:7188/api/DoctorApi/{doctorId}");
 			if (response.IsSuccessStatusCode)
 			{
                 return RedirectToAction("Index");

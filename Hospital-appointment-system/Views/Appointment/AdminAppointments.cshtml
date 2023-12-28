@@ -6,11 +6,11 @@
 <div class="container p-3 ">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary"> Appointments List</h2>
+            <h2 class="text-primary"> @ViewData["AppointmentsList"]</h2>
         </div>
         <div class="col-6 text-right">
             <a asp-controller="Appointment" asp-action="AdminMakeAnAppointment" class="btn btn-primary">
-                <i class="bi bi-person-add"></i> &nbsp; Add new Appointments
+                <i class="bi bi-person-add"></i> &nbsp; @ViewData["AddnewAppointment"]
             </a>
 
         </div>
@@ -23,12 +23,12 @@
         <table class="table table-bordered table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <td><label class="form-label"><i class="bi bi-person-fill"></i> Patient Name</label></td>
-                    <td><label class="form-label"><i class="bi bi-envelope-at-fill"></i> Patient Email</label></td>
-                    <td><label class="form-label"><i class="fa-regular fa-hospital ml-1"></i> Clinic</label></td>
-                    <td><label class="form-label"><i class="fa-solid fa-user-doctor ml-1"></i> Doctor:</label></td>
-                    <th><label class="form-label"><i class="fa-solid fa-calendar-days ml-1"></i> Day:</label></th>
-                    <td><label class="form-label"><i class="fa-regular fa-clock ml-1"></i> Time:</label></td>
+                    <td><label class="form-label"><i class="bi bi-person-fill"></i> @ViewData["PatientName"]</label></td>
+                    <td><label class="form-label"><i class="bi bi-envelope-at-fill"></i> @ViewData["PatientEmail"]</label></td>
+                    <td><label class="form-label"><i class="fa-regular fa-hospital ml-1"></i>  @ViewData["Clinic"]</label></td>
+                    <td><label class="form-label"><i class="fa-solid fa-user-doctor ml-1"></i> @ViewData["Doctor"]:</label></td>
+                    <th><label class="form-label"><i class="fa-solid fa-calendar-days ml-1"></i> @ViewData["Day"]:</label></th>
+                    <td><label class="form-label"><i class="fa-regular fa-clock ml-1"></i> @ViewData["Time"]:</label></td>
                     <!-- Display other properties as needed -->
                     <th></th>
 
