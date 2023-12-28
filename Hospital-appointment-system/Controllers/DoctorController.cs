@@ -115,7 +115,7 @@ namespace Hospital_appointment_system.Controllers
 							DoctorID = obj.DoctorID,
 							DayOfWeek = obj.DayOfWeek.ToString(),
                             AppointmentStatus = AppointmentStatus.active,
-							Time = new TimeSpan(obj.StartTime.Hours + i, 00, 00),
+							Time = new TimeSpan(obj.StartTime.Hours + i, obj.StartTime.Minutes, 00),
 						};
                         _context.AppointmentStatus.Add(availableAppointments);
                         AvailableAppointments availableAppointments2 = new AvailableAppointments
@@ -124,7 +124,7 @@ namespace Hospital_appointment_system.Controllers
                             DoctorID = obj.DoctorID,
                             DayOfWeek = obj.DayOfWeek.ToString(),
                             AppointmentStatus = AppointmentStatus.active,
-                            Time = new TimeSpan(obj.StartTime.Hours + i, 30, 00),
+                            Time = new TimeSpan(obj.StartTime.Hours + i, obj.StartTime.Minutes+30, 00),
 						};
                         _context.AppointmentStatus.Add(availableAppointments2);
                     }

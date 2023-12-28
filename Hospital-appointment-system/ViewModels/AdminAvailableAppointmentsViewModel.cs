@@ -2,9 +2,12 @@
 
 namespace Hospital_appointment_system.ViewModels
 {
-    public class AvailableAppointmentsViewModel
+    public class AdminAvailableAppointmentsViewModel
     {
-        public MakeAnAppointmentViewModel makeAnAppointmentViewModel { get; set; }
+        public AdminMakeAnAppointmentViewModel adminMakeAnAppointmentViewModel { get; set; }
+
+        public List<PatientUser> patientUsers { get; set; }
+        public PatientUser patientUser { get; set; }
         public List<Clinic> clinics { get; set; }
 		public Clinic clinic { get; set; }
 		public int SelectedClinicId { get; set; }

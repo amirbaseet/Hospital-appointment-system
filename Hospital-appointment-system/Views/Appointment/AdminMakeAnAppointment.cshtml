@@ -1,24 +1,39 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-    Layout = "_Layout";
-}
-@using Hospital_appointment_system.ViewModels;
-@model AvailableAppointmentsViewModel
-<section id="appointment" class="appointment section-bg" style="margin-top:100px">
-    <div class="container">
-
-        <div class="section-title mt-5">
-            <h2>Make an Appointment</h2>
+﻿@using Hospital_appointment_system.ViewModels;
+@model AdminAvailableAppointmentsViewModel
+<div class="container p-3 ">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary"> Add new Appointment</h2>
         </div>
-
-        <form method="post" asp-controller="Appointment" asp-action="CreateAppointment" class="mt-2">
+    </div>
+</div>
+<br />
+<section id="appointment" class="appointment section-bg">
+    <div class="container">
+        <form method="post" asp-controller="Appointment" asp-action="AdminCreateAppointment" class="mt-2">
+            <div class="row g-2">
+                <div class="col-2 form-group mt-3" style="padding-left:100px">
+                    <label class="form-label"><i class="bi bi-person-fill  ml-1"></i> patient:</label>
+                </div>
+                <div class="col-8 form-group mt-3">
+                    <select asp-for="adminMakeAnAppointmentViewModel.Id" class="form-select">
+                        <option></option>
+                        @foreach (var item in Model.patientUsers)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="validate"></div>
+            </div>
             <div class="row g-2">
                 <div class="col-2 form-group mt-3" style="padding-left:100px">
                     <label class="form-label"><i class="fa-regular fa-hospital ml-1"></i> Clinic:</label>
-                    
+
                 </div>
                 <div class="col-8 form-group mt-3">
-                    <select asp-for="makeAnAppointmentViewModel.ClinicID" class="form-select" id="mySelectOfClinic">
+                    <select asp-for="adminMakeAnAppointmentViewModel.ClinicID" class="form-select" id="mySelectOfClinic">
                         <option></option>
                         @foreach (var item in Model.clinics)
                         {
@@ -34,7 +49,7 @@
                     <label class="form-label"><i class="fa-solid fa-user-doctor ml-1"></i> Doctor:</label>
                 </div>
                 <div class="col-8 form-group mt-3">
-                    <select asp-for="makeAnAppointmentViewModel.DoctorID" class="form-select ListOfDoctors" id="mySelectOfDoctor" disabled>
+                    <select asp-for="adminMakeAnAppointmentViewModel.DoctorID" class="form-select ListOfDoctors" id="mySelectOfDoctor" disabled>
                         <option></option>
                     </select>
                 </div>
@@ -44,7 +59,7 @@
                     <label class="form-label"><i class="fa-solid fa-calendar-days ml-1"></i> Day:</label>
                 </div>
                 <div class="col-8 form-group mt-3">
-                    <select asp-for="makeAnAppointmentViewModel.HoursID" class="form-select ListOfWorkingHour" id="mySelectOfWorkingHour" disabled>
+                    <select asp-for="adminMakeAnAppointmentViewModel.HoursID" class="form-select ListOfWorkingHour" id="mySelectOfWorkingHour" disabled>
                     </select>
                 </div>
                 <div class="validate"></div>
@@ -54,15 +69,20 @@
                     <label class="form-label"><i class="fa-regular fa-clock ml-1"></i> Time:</label>
                 </div>
                 <div class="col-8 form-group mt-3">
-                    <select asp-for="makeAnAppointmentViewModel.AvailableAppointmentsID" class="form-select ListOfAvailableAppointments" disabled>
+                    <select asp-for="adminMakeAnAppointmentViewModel.AvailableAppointmentsID" class="form-select ListOfAvailableAppointments" disabled>
                     </select>
                 </div>
                 <div class="validate"></div>
             </div>
 
-            <div class="text-center mt-3"><button class="btn btn-primary" type="submit">Make an Appointment</button></div>
+            <div class="text-center mt-3">
+                <button class="btn btn-primary" type="submit">Make an Appointment</button>
+                <a asp-controller="Appointment" asp-action="AdminAppointments" class="btn btn-secondary" style="width:150px">
+                    Back to List
+                </a>
+            </div>
+            
         </form>
-
     </div>
 </section>
 
