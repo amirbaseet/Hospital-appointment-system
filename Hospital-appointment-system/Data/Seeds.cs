@@ -29,10 +29,10 @@ namespace Hospital_appointment_system.Data
 				if (!context.Departments.Any())
 				{
 					context.Departments.AddRange(new List<Departments>
-				  {
+					{
 					 new Departments { Name = "Cardiology", Description = "Heart related diseases and treatments" },
 					 new Departments { Name = "Neurology", Description = "Brain and nervous system related diseases and treatments" }
-				  });
+					});
 					context.SaveChanges();
 				}
 
