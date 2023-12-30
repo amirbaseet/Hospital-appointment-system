@@ -1,0 +1,65 @@
+﻿@model IEnumerable<PatientUser>
+
+@{
+    ViewData["Title"] = "Patient Dashboard";
+}
+
+<div class="container p-3 ">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary"> @ViewData["PatientsList"]</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="PatientUser" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-person-add"></i> &nbsp; @ViewData["AddaPatient"]
+            </a>
+
+        </div>
+    </div>
+
+</div>
+<br />
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <td>@Html.DisplayNameFor(model=>model.Id)</td>
+            <td>@Html.DisplayNameFor(Model=>Model.Name)</td>
+            <th>@Html.DisplayNameFor(Model=>Model.Gender)</th>
+            <td>@Html.DisplayNameFor(Model=>Model.Email)</td>
+            <!-- Display other properties as needed -->
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td width="20%">
+                    @item.Name
+                </td>
+                <td>
+                    @item.Gender
+                </td>
+                <td>
+                    @item.Email
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-controller="PatientUser" asp-action="Edit" asp-route-id="@item.Id"
+                           class="btn btn-warning "> <i class="bi bi-pencil-square"></i>@ViewData["Edit"]</a>
+                        <a asp-controller="PatientUser" asp-action="Delete" asp-route-id="@item.Id"
+                           class="btn btn-danger "> <i class="bi bi-trash"></i>@ViewData["Delete"]</a>
+
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+</div>
+

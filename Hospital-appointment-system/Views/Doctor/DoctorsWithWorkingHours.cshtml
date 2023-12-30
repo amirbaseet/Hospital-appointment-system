@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Hospital_appointment_system.ViewModels.DoctorWorkingHoursViewModel>
+
+@{
+    ViewData["Title"] = "Doctor`s Working Hours";
+}
+    <div class="container p-3 ">
+        <div class="row pt-5">
+            <div class="col-6">
+            <h2 class="text-primary">@ViewData["Doctor`sWorkingHours"]</h2>
+            </div>
+            <div class="col-6 text-right">
+                <a asp-controller="Doctor" asp-action="Index" class="btn btn-primary">
+                <i class="bi bi-person-add"></i> &nbsp;@ViewData["ListDoctors"]
+                </a>
+            </div>
+        </div>
+
+        <br />
+
+        <table class="table table-bordered table-striped" style="width:100%">
+        <thead class="thead-light">
+                <tr>
+                    <th>@Html.DisplayNameFor(modil=>modil.Name)</th>
+                    <th>@Html.DisplayNameFor(modil=>modil.Specialization)</th>
+                    <th>@Html.DisplayNameFor(modil=>modil.WorkingHours)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td width="30%">
+                            @obj.Name
+
+                        </td>
+                        <td width="30%">
+                            @obj.Specialization
+                        </td> 
+                        <td width="40%">
+                            @foreach (var hour in obj.WorkingHours)
+                            {
+                                <div>@hour.DayOfWeek: @hour.StartTime - @hour.EndTime</div>
+                            }
+                        </td>
+                      
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+
+   
+</div>

@@ -1,0 +1,183 @@
+﻿@using Hospital_appointment_system.ViewModels;
+@model AdminAvailableAppointmentsViewModel
+<div class="container p-3 ">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary"> </h2>
+        </div>
+    </div>
+</div>
+<br />
+<section id="appointment" class="appointment section-bg">
+    <div class="container">
+        <form method="post" asp-controller="Appointment" asp-action="AdminCreateAppointment" class="mt-2">
+            <div class="row g-2">
+                <div class="col-2 form-group mt-3" style="padding-left:100px">
+                    <label class="form-label"><i class="bi bi-person-fill  ml-1"></i> @ViewData["patient"]:</label>
+                </div>
+                <div class="col-8 form-group mt-3">
+                    <select asp-for="adminMakeAnAppointmentViewModel.Id" class="form-select">
+                        <option></option>
+                        @foreach (var item in Model.patientUsers)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="validate"></div>
+            </div>
+            <div class="row g-2">
+                <div class="col-2 form-group mt-3" style="padding-left:100px">
+                    <label class="form-label"><i class="fa-regular fa-hospital ml-1"></i> @ViewData["Clinic"]:</label>
+
+                </div>
+                <div class="col-8 form-group mt-3">
+                    <select asp-for="adminMakeAnAppointmentViewModel.ClinicID" class="form-select" id="mySelectOfClinic">
+                        <option></option>
+                        @foreach (var item in Model.clinics)
+                        {
+                            <option value="@item.ClinicID">@item.Name</option>
+                        }
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="validate"></div>
+            </div>
+            <div class="row g-2">
+                <div class="col-2 form-group mt-3" style="padding-left:100px">
+                    <label class="form-label"><i class="fa-solid fa-user-doctor ml-1"></i> @ViewData["Doctor"]:</label>
+                </div>
+                <div class="col-8 form-group mt-3">
+                    <select asp-for="adminMakeAnAppointmentViewModel.DoctorID" class="form-select ListOfDoctors" id="mySelectOfDoctor" disabled>
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col-2 form-group mt-3" style="padding-left:100px">
+                    <label class="form-label"><i class="fa-solid fa-calendar-days ml-1"></i> @ViewData["Day"]:</label>
+                </div>
+                <div class="col-8 form-group mt-3">
+                    <select asp-for="adminMakeAnAppointmentViewModel.HoursID" class="form-select ListOfWorkingHour" id="mySelectOfWorkingHour" disabled>
+                    </select>
+                </div>
+                <div class="validate"></div>
+            </div>
+            <div class="row g-2">
+                <div class="col-2 form-group mt-3" style="padding-left:100px">
+                    <label class="form-label"><i class="fa-regular fa-clock ml-1"></i> @ViewData["Time"]:</label>
+                </div>
+                <div class="col-8 form-group mt-3">
+                    <select asp-for="adminMakeAnAppointmentViewModel.AvailableAppointmentsID" class="form-select ListOfAvailableAppointments" disabled>
+                    </select>
+                </div>
+                <div class="validate"></div>
+            </div>
+
+            <div class="text-center mt-3">
+                <button class="btn btn-primary" type="submit">@ViewData["MakeanAppointment"]</button>
+                <a asp-controller="Appointment" asp-action="AdminAppointments" class="btn btn-secondary" style="width:150px">
+                    @ViewData["BacktoList"]
+                </a>
+            </div>
+            
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+    <partial name="_validationScriptsPartial" />
+    }
+    <script>
+        const container = document.querySelector(".ListOfDoctors");
+        const container2 = document.querySelector(".ListOfWorkingHour");
+        const container3 = document.querySelector(".ListOfAvailableAppointments");
+
+        document.getElementById("mySelectOfClinic").addEventListener("change", function () {
+            let selectedValue = this.value;
+            console.log(selectedValue);
+            $.ajax({
+                type: "GET",
+                url: "/Appointment/DoctorjsonData",
+                data: { ClinicID: selectedValue },
+                success: function (details) {
+                    console.log(details);
+                    DisplayDetailsOfDoctor(details);
+                },
+                error: function (error) {
+                    alert("Error");
+                }
+            });
+        });
+        function DisplayDetailsOfDoctor(data) {
+            let html = "<option></option>";
+            data.forEach(item => {
+                html += `<option value="${item.doctorID}">${item.name}</option>`;
+            });
+            container.innerHTML = "";
+            container.insertAdjacentHTML("afterbegin", html);
+            container.disabled = false;
+        };
+        //////////////////
+        document.getElementById("mySelectOfDoctor").addEventListener("change", function () {
+            selectedValue = this.value;
+            console.log(selectedValue);
+            $.ajax({
+                type: "GET",
+                url: "/Appointment/WorkingHourjsonData",
+                data: { DoctorID: selectedValue },
+                success: function (details) {
+                    console.log(details);
+                    DisplayDetailsOfWorkingHour(details);
+                },
+                error: function (error) {
+                    alert("Error");
+                }
+            });
+        });
+        function DisplayDetailsOfWorkingHour(data) {
+            html = "<option></option>";
+            data.forEach(item => {
+                html += `<option value="${item.hoursID}">${item.dayOfWeek} ${item.startTime} - ${item.endTime}</option>`;
+
+            });
+            container2.innerHTML = "";
+            container2.insertAdjacentHTML("afterbegin", html);
+            container2.disabled = false;
+        };
+        //////////////////
+        document.getElementById("mySelectOfWorkingHour").addEventListener("change", function () {
+            selectedValue = this.value;
+            console.log(selectedValue);
+            $.ajax({
+                type: "GET",
+                url: "/Appointment/AvailableAppointmentsjsonData",
+                data: { HoursID: selectedValue },
+                success: function (details) {
+                    console.log(details);
+                    DisplayDetailsOfAvailableAppointments(details);
+                },
+                error: function (error) {
+                    alert("Error");
+                }
+            });
+        });
+        function DisplayDetailsOfAvailableAppointments(data) {
+            html = "<option></option>";
+            data.forEach(item => {
+                if (item.appointmentStatus == 0) {
+                    html += `<option value="${item.availableAppointmentsID}">${item.time}</option>`;
+                }
+                else
+                    html += `<option value="${item.availableAppointmentsID}" disabled>${item.time}</option>`;
+                
+
+            });
+            container3.innerHTML = "";
+            container3.insertAdjacentHTML("afterbegin", html);
+            container3.disabled = false;
+        };
+    </script>
+}
