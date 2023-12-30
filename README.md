@@ -16,3 +16,6 @@ Hastane Randevu Sistemi, hastane ortamında randevu alma sürecini kolaylaştır
 - **Arka Uç**: ASP.NET Core 6 MVC
 - **Veritabanı**: SQL Server/PostgreSQL
 - **ORM**: Entity Framework Core
+## Projeyi hazırlayan öğrenciler: 
+AMRO MOUSA ISMAIL BASEET (G211210578)
+SUHAYB ALHAS OTHMAN (B201210560)
